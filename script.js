@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initActiveNavHighlight();
     initPasswordToggle();
     initFormHandlers();
+    initMobileNavHighlight();
 });
 
 // ============================================
@@ -39,28 +40,26 @@ function initPageTransitions() {
 function initActiveNavHighlight() {
     const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
     
-    // Map pages to nav text
-    const pageMap = {
-        'dashboard.html': 'แผงควบคุม',
-        'history.html': 'ประวัติ',
-        'devide.html': 'อุปกรณ์',
-        'setting.html': 'การตั้งค่า',
-    };
-
-    // Highlight active nav items
-    document.querySelectorAll('nav a, header a').forEach(link => {
+    // Highlight active nav items in header
+    document.querySelectorAll('header nav a').forEach(link => {
         const href = link.getAttribute('href');
         if (href && href.includes(currentPage)) {
             link.classList.add('nav-active');
         }
     });
+}
 
-    // Sidebar active highlight
-    document.querySelectorAll('aside nav a').forEach(link => {
+// ============================================
+// Mobile Bottom Nav Highlight
+// ============================================
+function initMobileNavHighlight() {
+    const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+    
+    document.querySelectorAll('.mobile-bottom-nav .nav-item').forEach(link => {
         const href = link.getAttribute('href');
+        link.classList.remove('active');
         if (href && href.includes(currentPage)) {
-            link.classList.remove('text-slate-500');
-            link.classList.add('sidebar-item-active');
+            link.classList.add('active');
         }
     });
 }
@@ -156,7 +155,7 @@ function initAmbientGlow() {
 // Waveform Animation (Dashboard)
 // ============================================
 function initWaveformAnimation() {
-    const waveformBars = document.querySelectorAll('.absolute.bottom-16 > div');
+    const waveformBars = document.querySelectorAll('.absolute.bottom-10 > div, .absolute.bottom-16 > div');
     if (waveformBars.length === 0) return;
 
     function animateWaveform() {
@@ -224,13 +223,12 @@ function initPasswordToggle() {
 // Form Handlers
 // ============================================
 function initFormHandlers() {
-    // Login form handler
-    const loginForm = document.querySelector('form');
-    if (!loginForm) return;
-
     const currentPage = window.location.pathname.split('/').pop();
 
     if (currentPage === 'login.html') {
+        const loginForm = document.querySelector('form');
+        if (!loginForm) return;
+
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const btn = loginForm.querySelector('button[type="submit"]');
@@ -249,9 +247,12 @@ function initFormHandlers() {
     }
 
     if (currentPage === 'register.html') {
-        loginForm.addEventListener('submit', (e) => {
+        const registerForm = document.getElementById('registerForm') || document.querySelector('form');
+        if (!registerForm) return;
+
+        registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const btn = loginForm.querySelector('button[type="submit"]') || loginForm.querySelector('button');
+            const btn = registerForm.querySelector('button[type="submit"]') || registerForm.querySelector('button:not([type="button"])');
             if (btn) {
                 btn.innerHTML = '<span class="inline-flex items-center gap-2"><svg class="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> กำลังสร้างบัญชี...</span>';
                 btn.disabled = true;
@@ -263,6 +264,18 @@ function initFormHandlers() {
                 }, 400);
             }, 1500);
         });
+    }
+}
+
+// ============================================
+// Logout Handler
+// ============================================
+function handleLogout() {
+    if (confirm('คุณต้องการออกจากระบบหรือไม่?')) {
+        document.body.classList.add('page-exit');
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 400);
     }
 }
 

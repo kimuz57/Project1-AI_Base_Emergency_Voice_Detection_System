@@ -5,12 +5,12 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Guardian AI - สร้างบัญชีผู้ใช้</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Sarabun:wght@400;500;600;700&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
@@ -23,7 +23,7 @@
                         "background-dark": "#101622",
                     },
                     fontFamily: {
-                        "display": ["Sarabun", "Inter", "sans-serif"]
+                        "display": ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica", "Arial", "sans-serif"]
                     },
                     borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
                 },
@@ -39,7 +39,9 @@
     <!-- Top Navigation -->
     <header class="fixed top-0 left-0 right-0 px-6 py-6 flex items-center justify-between z-50">
         <div class="flex items-center gap-2 text-slate-900">
-            <span class="material-symbols-outlined text-primary text-3xl">shield</span>
+            <div class="bg-primary text-white p-2 rounded-xl shadow-lg shadow-primary/20">
+                <span class="material-symbols-outlined block">emergency</span>
+            </div>
             <h2 class="text-lg font-bold tracking-tight">Guardian AI</h2>
         </div>
         <button
@@ -56,7 +58,7 @@
                 <h1 class="heading-1 text-slate-900">สร้างบัญชีผู้ใช้</h1>
                 <p class="text-slate-500 text-sm">ร่วมเป็นส่วนหนึ่งของระบบรักษาความปลอดภัยอัจฉริยะแห่งอนาคต</p>
             </div>
-            <form class="space-y-5" onsubmit="return false;">
+            <form class="space-y-5" id="registerForm">
                 <!-- Full Name Field -->
                 <div class="space-y-2">
                     <label class="label-text text-slate-600 ml-1">ชื่อ-นามสกุล</label>
@@ -86,13 +88,19 @@
                         <span
                             class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">lock</span>
                         <input
-                            class="glass-input w-full pl-12 pr-4 py-4 rounded-lg focus:bg-white/60 focus:ring-2 focus:ring-primary/20 transition-all text-slate-900 placeholder:text-slate-400 outline-none"
+                            class="glass-input w-full pl-12 pr-12 py-4 rounded-lg focus:bg-white/60 focus:ring-2 focus:ring-primary/20 transition-all text-slate-900 placeholder:text-slate-400 outline-none"
                             placeholder="••••••••" type="password" />
+                        <button
+                            class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors"
+                            type="button">
+                            <span class="material-symbols-outlined text-[20px]">visibility</span>
+                        </button>
                     </div>
                 </div>
                 <!-- Submit Button -->
                 <button
-                    class="w-full bg-primary hover:bg-primary/90 text-white btn-text py-4 rounded-lg shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-2 group mt-4">
+                    class="w-full bg-primary hover:bg-primary/90 text-white btn-text py-4 rounded-lg shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-2 group mt-4"
+                    type="submit">
                     <span>สร้างบัญชี</span>
                     <span
                         class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>

@@ -5,11 +5,12 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Guardian AI - ประวัติเหตุการณ์</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
@@ -18,13 +19,20 @@
                 extend: {
                     colors: {
                         "primary": "#2b6cee",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#101622",
+                        "background": "#f5f5f7",
+                        "card": "rgba(255, 255, 255, 0.4)",
                     },
                     fontFamily: {
-                        "display": ["Inter", "sans-serif"]
+                        "display": ["Inter", "system-ui", "-apple-system", "sans-serif"]
                     },
-                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                    borderRadius: {
+                        "DEFAULT": "12px",
+                        "lg": "16px",
+                        "xl": "24px",
+                        "2xl": "32px",
+                        "3xl": "40px",
+                        "full": "9999px"
+                    },
                     boxShadow: {
                         'lucid': '0 8px 32px 0 rgba(31, 38, 135, 0.07), 0 1px 2px 0 rgba(0, 0, 0, 0.02)',
                         'lucid-deep': '0 20px 50px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(255, 255, 255, 0.5)',
@@ -39,25 +47,28 @@
 <body class="font-display bg-gradient-mesh min-h-screen text-slate-900 antialiased">
     <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
         <!-- Navigation Bar -->
-        <header class="sticky top-0 z-50 px-6 py-4 lucid-glass border-b border-white/30 shadow-sm">
-            <div class="max-w-7xl mx-auto flex items-center justify-between">
-                <div class="flex items-center gap-8">
-                    <div class="flex items-center gap-3 text-primary">
-                        <span class="material-symbols-outlined text-3xl font-bold">shield_with_heart</span>
-                        <h2 class="text-slate-900 text-[24px] font-extrabold tracking-tight">Guardian AI</h2>
-                    </div>
-                    <nav class="hidden md:flex items-center gap-8">
-                        <a class="text-slate-600 hover:text-primary text-[14px] opacity-70 font-semibold transition-colors"
-                            href="dashboard.html">แผงควบคุม</a>
-                        <a class="text-primary text-[14px] font-semibold border-b-2 border-primary pb-1"
-                            href="history.html">ประวัติ</a>
-                        <a class="text-slate-600 hover:text-primary text-[14px] opacity-70 font-semibold transition-colors"
-                            href="devide.html">อุปกรณ์</a>
-                        <a class="text-slate-600 hover:text-primary text-[14px] opacity-70 font-semibold transition-colors"
-                            href="setting.html">การตั้งค่า</a>
-                    </nav>
-                </div>
+        <header class="sticky top-0 z-50 lucid-glass border-b border-white/20">
+            <div class="max-w-7xl mx-auto px-6 md:px-10 py-5 flex items-center justify-between">
                 <div class="flex items-center gap-4">
+                    <div
+                        class="size-10 bg-primary flex items-center justify-center rounded-xl text-white shadow-lg shadow-primary/20">
+                        <span class="material-symbols-outlined text-2xl">shield_with_heart</span>
+                    </div>
+                    <div>
+                        <h2 class="text-heading-3 tracking-tight">Guardian AI</h2>
+                    </div>
+                </div>
+                <nav class="hidden md:flex items-center gap-6">
+                    <a class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+                        href="dashboard.html">แผงควบคุม</a>
+                    <a class="text-sm font-semibold text-primary border-b-2 border-primary pb-1"
+                        href="history.html">ประวัติ</a>
+                    <a class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+                        href="devide.html">อุปกรณ์</a>
+                    <a class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+                        href="setting.html">การตั้งค่า</a>
+                </nav>
+                <div class="flex items-center gap-3">
                     <div class="relative hidden sm:block">
                         <span
                             class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
@@ -71,8 +82,12 @@
                         <span
                             class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
                     </button>
+                    <button onclick="handleLogout()" class="logout-btn hidden md:flex">
+                        <span class="material-symbols-outlined text-sm">logout</span>
+                        ออกจากระบบ
+                    </button>
                     <div class="w-10 h-10 rounded-full bg-primary/10 border-2 border-white overflow-hidden shadow-sm">
-                        <img alt="User Profile" data-alt="Avatar of a male user with glasses"
+                        <img alt="User Profile"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoNSf9PHztrk0EilaJOlCX1IbonIpgw84OQGDMD9ImGkrAD6eDrZ7e2UoUDKX3U30fTGN9t9CIBLUew77ZUw3-Vpi0zauK3E2A71RYV5OTkSV2B5_4hUYeS4IyFgD3EN7oM2XiVyx_gfRaL_tuAaEbhPhXSqZ08WoXQIqX9oMRXviN_yhKfeRJcwA7tLpCuGRmVjDxD0zc1BoPXWLJV-WCGizrWCsBSvNmFqydgl0oLu2905p2kEQ1WCtkfsAb-KHlHnFB0WgaouA" />
                     </div>
                 </div>
@@ -85,7 +100,7 @@
                 <p class="text-slate-500 text-[16px] max-w-lg mx-auto leading-relaxed mb-8">
                     ภาพรวมบันทึกกิจกรรมความปลอดภัยของคุณอย่างเป็นระเบียบ
                 </p>
-                <div class="flex justify-center gap-4">
+                <div class="flex justify-center gap-4 flex-wrap">
                     <button
                         class="px-6 py-2 rounded-full bg-slate-900 text-white text-[14px] font-bold uppercase tracking-wider shadow-lg hover:shadow-xl transition-all">ทั้งหมด</button>
                     <button
@@ -110,7 +125,7 @@
                                 class="text-slate-400 text-[14px] opacity-70 font-semibold uppercase tracking-wider">10:45
                                 น.</time>
                         </div>
-                        <h3 class="text-[24px] font-bold text-slate-900 mb-1 leading-tight">ตรวจพบเสียงกระแทกดัง</h3>
+                        <h3 class="text-[20px] md:text-[24px] font-bold text-slate-900 mb-1 leading-tight">ตรวจพบเสียงกระแทกดัง</h3>
                         <p class="text-slate-500 text-[16px] leading-relaxed">โซนห้องนั่งเล่น B
                             แรงกระแทกเกินเกณฑ์ความปลอดภัย</p>
                     </div>
@@ -128,7 +143,7 @@
                                 class="text-slate-400 text-[14px] opacity-70 font-semibold uppercase tracking-wider">09:12
                                 น.</time>
                         </div>
-                        <h3 class="text-[24px] font-bold text-slate-900 mb-1 leading-tight">ตรวจพบเสียงที่ไม่รู้จัก</h3>
+                        <h3 class="text-[20px] md:text-[24px] font-bold text-slate-900 mb-1 leading-tight">ตรวจพบเสียงที่ไม่รู้จัก</h3>
                         <p class="text-slate-500 text-[16px] leading-relaxed">ทางเข้า
                             รูปแบบเสียงไม่ตรงกับรายการผู้ใช้ที่ได้รับอนุญาต</p>
                     </div>
@@ -146,7 +161,7 @@
                                 class="text-slate-400 text-[14px] opacity-70 font-semibold uppercase tracking-wider">เมื่อวานนี้,
                                 23:54 น.</time>
                         </div>
-                        <h3 class="text-[24px] font-bold text-slate-900 mb-1 leading-tight">ตรวจพบน้ำรั่ว</h3>
+                        <h3 class="text-[20px] md:text-[24px] font-bold text-slate-900 mb-1 leading-tight">ตรวจพบน้ำรั่ว</h3>
                         <p class="text-slate-500 text-[16px] leading-relaxed">บริเวณอ่างล้างจานในครัว
                             ตรวจพบเสียงหยดน้ำอย่างต่อเนื่อง</p>
                     </div>
@@ -164,7 +179,7 @@
                                 class="text-slate-400 text-[14px] opacity-70 font-semibold uppercase tracking-wider">เมื่อวานนี้,
                                 16:30 น.</time>
                         </div>
-                        <h3 class="text-[24px] font-bold text-slate-900 mb-1 leading-tight">กิจกรรมสัตว์เลี้ยง</h3>
+                        <h3 class="text-[20px] md:text-[24px] font-bold text-slate-900 mb-1 leading-tight">กิจกรรมสัตว์เลี้ยง</h3>
                         <p class="text-slate-500 text-[16px] leading-relaxed">หลังบ้าน ตรวจพบเสียงเห่าใกล้บริเวณรั้ว</p>
                     </div>
                 </div>
@@ -190,6 +205,27 @@
             </div>
         </footer>
     </div>
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav" id="mobileNav">
+        <div class="nav-items">
+            <a href="dashboard.html" class="nav-item">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span>แผงควบคุม</span>
+            </a>
+            <a href="history.html" class="nav-item active">
+                <span class="material-symbols-outlined">history</span>
+                <span>ประวัติ</span>
+            </a>
+            <a href="devide.html" class="nav-item">
+                <span class="material-symbols-outlined">memory</span>
+                <span>อุปกรณ์</span>
+            </a>
+            <a href="setting.html" class="nav-item">
+                <span class="material-symbols-outlined">settings</span>
+                <span>ตั้งค่า</span>
+            </a>
+        </div>
+    </nav>
     <script src="script.js"></script>
 </body>
 

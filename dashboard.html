@@ -7,10 +7,10 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Guardian AI - แผงควบคุมเหตุฉุกเฉินอัจฉริยะ</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
@@ -18,7 +18,7 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#0071e3",
+                        "primary": "#2b6cee",
                         "background": "#f5f5f7",
                         "card": "rgba(255, 255, 255, 0.4)",
                     },
@@ -44,7 +44,7 @@
     <div class="relative min-h-screen flex flex-col">
         <!-- Navigation -->
         <header class="sticky top-0 z-50 lucid-glass border-b border-white/20">
-            <div class="max-w-7xl mx-auto px-10 py-5 flex items-center justify-between">
+            <div class="max-w-7xl mx-auto px-6 md:px-10 py-5 flex items-center justify-between">
                 <div class="flex items-center gap-4">
                     <div
                         class="size-10 bg-primary flex items-center justify-center rounded-xl text-white shadow-lg shadow-primary/20">
@@ -73,21 +73,25 @@
                     <a href="setting.html" class="p-2.5 rounded-full hover:bg-white/40 transition-colors">
                         <span class="material-symbols-outlined text-2xl opacity-70">settings</span>
                     </a>
+                    <button onclick="handleLogout()" class="logout-btn hidden md:flex">
+                        <span class="material-symbols-outlined text-sm">logout</span>
+                        ออกจากระบบ
+                    </button>
                     <div class="size-9 rounded-full bg-cover bg-center ml-2 border-2 border-white/50 shadow-sm"
                         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9PXJ7SVhlwFAS3H_ri9Sjb45-2so862RjxIQrYZk9QN0BnM-KlbpSyP_8ZmEs8hUXJYpHPYyAq0rClLJJwqg--XzIAeAMDr7LOQarZMYkk5_Abs8-rHxFf70wfCmBVkxIQDjvfL5pJhheVJRtOeLjxQXNRLQCSx58BzQikS_SuVS_YWA-gbcYNc06zDl78tnZ6I0hzHbBOwsqFTTUhijZRAcYcgbgeeMVwh49Je2wVO15dYrku9lsydytelEP7LfTTVtuOSlV-xM");'>
                     </div>
                 </div>
             </div>
         </header>
-        <main class="flex-1 max-w-7xl mx-auto w-full px-10 py-12 grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <main class="flex-1 max-w-7xl mx-auto w-full px-6 md:px-10 py-12 grid grid-cols-1 lg:grid-cols-12 gap-10">
             <!-- Left Column: Primary Monitoring -->
             <div class="lg:col-span-8 flex flex-col gap-10">
                 <!-- Alert Banner -->
                 <div
-                    class="bg-red-500/10 border border-red-500/20 backdrop-blur-xl p-8 rounded-3xl flex items-center justify-between alert-pulse deep-shadow">
+                    class="bg-red-500/10 border border-red-500/20 backdrop-blur-xl p-6 md:p-8 rounded-3xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 alert-pulse deep-shadow">
                     <div class="flex items-center gap-5">
                         <div
-                            class="size-14 rounded-2xl bg-red-500 flex items-center justify-center text-white shadow-lg shadow-red-500/30">
+                            class="size-14 rounded-2xl bg-red-500 flex items-center justify-center text-white shadow-lg shadow-red-500/30 shrink-0">
                             <span class="material-symbols-outlined text-2xl fill-1">emergency</span>
                         </div>
                         <div>
@@ -96,30 +100,30 @@
                         </div>
                     </div>
                     <button
-                        class="bg-red-600 text-white px-8 py-3.5 rounded-2xl font-semibold text-body transition-all hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/20 active:scale-95">
+                        class="bg-red-600 text-white px-8 py-3.5 rounded-2xl font-semibold text-body transition-all hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/20 active:scale-95 w-full md:w-auto">
                         ส่งความช่วยเหลือ
                     </button>
                 </div>
                 <!-- Main Detection Visualization -->
                 <div
-                    class="lucid-glass rounded-3xl p-16 flex flex-col items-center justify-center min-h-[540px] relative overflow-hidden deep-shadow floating-layer">
+                    class="lucid-glass rounded-3xl p-10 md:p-16 flex flex-col items-center justify-center min-h-[400px] md:min-h-[540px] relative overflow-hidden deep-shadow floating-layer">
                     <!-- Subtle Inner Glow Overlay -->
                     <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none">
                     </div>
                     <div class="flex flex-col items-center text-center relative z-10">
                         <!-- Microphone Icon -->
                         <div
-                            class="size-36 rounded-full lucid-glass-inner flex items-center justify-center mb-10 transition-transform duration-700 hover:scale-110">
+                            class="size-28 md:size-36 rounded-full lucid-glass-inner flex items-center justify-center mb-10 transition-transform duration-700 hover:scale-110">
                             <span
-                                class="material-symbols-outlined text-6xl text-primary drop-shadow-[0_0_10px_rgba(0,113,227,0.3)]">mic</span>
+                                class="material-symbols-outlined text-5xl md:text-6xl text-primary drop-shadow-[0_0_10px_rgba(43,108,238,0.3)]">mic</span>
                         </div>
                         <span
                             class="text-small-label text-primary font-bold uppercase tracking-[0.25em] mb-6">กำลังรับฟัง...</span>
-                        <h1 class="text-display-large mb-6 tracking-tight">"ช่วยเหลือ"</h1>
+                        <h1 class="text-3xl md:text-display-large mb-6 tracking-tight">"ช่วยเหลือ"</h1>
                         <p class="text-body-large text-gray-500/80">ระดับความมั่นใจ 92%</p>
                     </div>
                     <!-- Enhanced Waveform -->
-                    <div class="absolute bottom-16 inset-x-0 h-16 flex items-center justify-center gap-2 opacity-[0.3]">
+                    <div class="absolute bottom-10 md:bottom-16 inset-x-0 h-16 flex items-center justify-center gap-2 opacity-[0.3]">
                         <div class="w-1.5 bg-primary rounded-full h-4"></div>
                         <div class="w-1.5 bg-primary rounded-full h-12"></div>
                         <div class="w-1.5 bg-primary rounded-full h-6"></div>
@@ -242,6 +246,27 @@
             </div>
         </footer>
     </div>
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav" id="mobileNav">
+        <div class="nav-items">
+            <a href="dashboard.html" class="nav-item active">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span>แผงควบคุม</span>
+            </a>
+            <a href="history.html" class="nav-item">
+                <span class="material-symbols-outlined">history</span>
+                <span>ประวัติ</span>
+            </a>
+            <a href="devide.html" class="nav-item">
+                <span class="material-symbols-outlined">memory</span>
+                <span>อุปกรณ์</span>
+            </a>
+            <a href="setting.html" class="nav-item">
+                <span class="material-symbols-outlined">settings</span>
+                <span>ตั้งค่า</span>
+            </a>
+        </div>
+    </nav>
     <script src="script.js"></script>
 </body>
 

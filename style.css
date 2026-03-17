@@ -1,59 +1,42 @@
+/* ============================================
+   Guardian AI — Master Stylesheet
+   Lucid Glassmorphism Design System
+   ============================================ */
+
+/* === Reset === */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* === Body Base === */
 body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Background gradient to enhance the glass effect */
     background: radial-gradient(circle at 0% 0%, #e0eafc 0%, #cfdef3 100%);
     background-attachment: fixed;
     background-color: #f8fafc;
     background-image:
         radial-gradient(at 0% 0%, rgba(43, 108, 238, 0.05) 0px, transparent 50%),
         radial-gradient(at 100% 100%, rgba(43, 108, 238, 0.03) 0px, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.lucid-glass {
-    background: rgba(255, 255, 255, 0.45);
-    backdrop-filter: blur(40px) saturate(180%);
-    -webkit-backdrop-filter: blur(40px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+body.page-loaded {
+    opacity: 1;
 }
 
-.lucid-glass-inner {
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.03);
+body.page-exit {
+    opacity: 0;
+    transform: scale(0.98);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.deep-shadow {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
-}
-
-.alert-pulse {
-    animation: soft-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes soft-pulse {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.9;
-        transform: scale(1.005);
-    }
-}
-
-/* Strict Apple Typography System */
+/* ============================================
+   Apple Typography System
+   ============================================ */
 .text-display-large {
     font-size: 48px;
     font-weight: 700;
@@ -104,131 +87,6 @@ body {
     font-size: 12px;
     font-weight: 500;
     line-height: 1.4;
-}
-
-.floating-layer {
-    transition: transform 0.4s cubic-bezier(0.2, 0, 0.2, 1);
-}
-
-.floating-layer:hover {
-    transform: translateY(-4px);
-}
-
-.lucid-glass {
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(40px) saturate(180%);
-    -webkit-backdrop-filter: blur(40px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-}
-
-.sidebar-item-active {
-    background-color: rgba(43, 108, 238, 0.1);
-    color: #2b6cee;
-}
-
-.caption-style {
-    font-size: 14px;
-    opacity: 0.7;
-
-    .glass-card {
-        background: rgba(255, 255, 255, 0.4);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .lucid-glass {
-        background: rgba(255, 255, 255, 0.4);
-        backdrop-filter: blur(40px) saturate(180%);
-        -webkit-backdrop-filter: blur(40px) saturate(180%);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .bg-gradient-mesh {
-        background:
-            radial-gradient(at 0% 0%, rgba(43, 108, 238, 0.05) 0, transparent 50%),
-            radial-gradient(at 50% 0%, rgba(43, 108, 238, 0.03) 0, transparent 50%),
-            radial-gradient(at 100% 0%, rgba(43, 108, 238, 0.05) 0, transparent 50%),
-            linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%);
-    }
-
-    h1,
-    h2,
-    h3 {
-        letter-spacing: -0.5px;
-    }
-}
-
-.glass-card {
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(40px) saturate(180%);
-    -webkit-backdrop-filter: blur(40px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow:
-        0 4px 6px -1px rgba(0, 0, 0, 0.05),
-        0 20px 50px -12px rgba(0, 0, 0, 0.15),
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
-}
-
-.liquid-bg {
-    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%);
-}
-
-.input-lucid {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.input-lucid:focus {
-    background: rgba(255, 255, 255, 0.4);
-    border-color: #2b6cee;
-    box-shadow: 0 0 0 4px rgba(43, 108, 238, 0.1);
-}
-
-.dark .glass-card {
-    background: rgba(15, 23, 42, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow:
-        0 25px 50px -12px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
-}
-
-.dark .input-lucid {
-    background: rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Floating layered effect for the form */
-.layer-depth {
-    transform: translateZ(20px);
-    transform-style: preserve-3d;
-}
-
-.glass-panel {
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(40px) saturate(180%);
-    -webkit-backdrop-filter: blur(40px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
-}
-
-.glass-input {
-    background: rgba(255, 255, 255, 0.35);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
-}
-
-.liquid-bg {
-    background: radial-gradient(circle at 0% 0%, #e0e7ff 0%, transparent 50%),
-        radial-gradient(circle at 100% 0%, #f5f3ff 0%, transparent 50%),
-        radial-gradient(circle at 100% 100%, #eff6ff 0%, transparent 50%),
-        radial-gradient(circle at 0% 100%, #fdf4ff 0%, transparent 50%),
-        #ffffff;
 }
 
 .heading-1 {
@@ -247,12 +105,22 @@ body {
     font-weight: 500;
 }
 
+/* ============================================
+   Lucid Glass System
+   ============================================ */
 .lucid-glass {
     background: rgba(255, 255, 255, 0.45);
     backdrop-filter: blur(40px) saturate(180%);
     -webkit-backdrop-filter: blur(40px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.4);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lucid-glass:hover {
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12),
+                0 0 0 1px rgba(255, 255, 255, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .lucid-glass-inner {
@@ -263,78 +131,71 @@ body {
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.03);
 }
 
+.glass-card {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.05),
+        0 20px 50px -12px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12),
+                0 0 0 1px rgba(255, 255, 255, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel:hover {
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12),
+                0 0 0 1px rgba(255, 255, 255, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.dark .glass-card {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================
+   Backgrounds
+   ============================================ */
+.liquid-bg {
+    background: radial-gradient(circle at 0% 0%, #e0e7ff 0%, transparent 50%),
+        radial-gradient(circle at 100% 0%, #f5f3ff 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, #eff6ff 0%, transparent 50%),
+        radial-gradient(circle at 0% 100%, #fdf4ff 0%, transparent 50%),
+        #ffffff;
+}
+
+.bg-gradient-mesh {
+    background:
+        radial-gradient(at 0% 0%, rgba(43, 108, 238, 0.05) 0, transparent 50%),
+        radial-gradient(at 50% 0%, rgba(43, 108, 238, 0.03) 0, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(43, 108, 238, 0.05) 0, transparent 50%),
+        linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%);
+}
+
+/* ============================================
+   Shadows & Effects
+   ============================================ */
 .deep-shadow {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
-}
-
-.alert-pulse {
-    animation: soft-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes soft-pulse {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.9;
-        transform: scale(1.005);
-    }
-}
-
-/* Strict Apple Typography System */
-.text-display-large {
-    font-size: 48px;
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.5px;
-}
-
-.text-heading-1 {
-    font-size: 32px;
-    font-weight: 600;
-    line-height: 1.3;
-    letter-spacing: -0.5px;
-}
-
-.text-heading-2 {
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 1.4;
-    letter-spacing: -0.5px;
-}
-
-.text-heading-3 {
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 1.4;
-}
-
-.text-body-large {
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 1.6;
-}
-
-.text-body {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.6;
-}
-
-.text-caption {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.5;
-    opacity: 0.7;
-}
-
-.text-small-label {
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.4;
 }
 
 .floating-layer {
@@ -345,26 +206,86 @@ body {
     transform: translateY(-4px);
 }
 
+.layer-depth {
+    transform: translateZ(20px);
+    transform-style: preserve-3d;
+}
+
 /* ============================================
-   Page Transition Animations
+   Input Styles
    ============================================ */
-body {
-    opacity: 0;
-    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+.input-lucid {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-body.page-loaded {
-    opacity: 1;
+.input-lucid:focus {
+    background: rgba(255, 255, 255, 0.4);
+    border-color: #2b6cee;
+    box-shadow: 0 0 0 4px rgba(43, 108, 238, 0.1);
+    transform: scale(1.01);
 }
 
-body.page-exit {
-    opacity: 0;
-    transform: scale(0.98);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+.glass-input {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-input:focus {
+    transform: scale(1.01);
+}
+
+.dark .input-lucid {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 /* ============================================
-   Lucid Glass Entrance Animation
+   Navigation
+   ============================================ */
+.sidebar-item-active {
+    background-color: rgba(43, 108, 238, 0.1);
+    color: #2b6cee;
+}
+
+.nav-active {
+    color: #2b6cee !important;
+    opacity: 1 !important;
+    position: relative;
+}
+
+.nav-active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 3px;
+    background: #2b6cee;
+    border-radius: 999px;
+}
+
+/* ============================================
+   Animations — Alert Pulse
+   ============================================ */
+.alert-pulse {
+    animation: soft-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes soft-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.9; transform: scale(1.005); }
+}
+
+/* ============================================
+   Animations — Glass Entrance
    ============================================ */
 .glass-entrance {
     animation: glassEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -387,7 +308,7 @@ body.page-exit {
 }
 
 /* ============================================
-   Glass Shimmer Effect
+   Animations — Glass Shimmer
    ============================================ */
 .glass-shimmer {
     position: absolute;
@@ -402,18 +323,12 @@ body.page-exit {
 }
 
 @keyframes shimmerExpand {
-    0% {
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(4);
-        opacity: 0;
-    }
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
 }
 
 /* ============================================
-   Ambient Floating Orbs
+   Animations — Ambient Floating Orbs
    ============================================ */
 .ambient-orbs {
     position: fixed;
@@ -431,29 +346,23 @@ body.page-exit {
 }
 
 .orb-1 {
-    width: 500px;
-    height: 500px;
+    width: 500px; height: 500px;
     background: #2b6cee;
-    top: -10%;
-    left: -5%;
+    top: -10%; left: -5%;
     animation: orbFloat1 20s ease-in-out infinite;
 }
 
 .orb-2 {
-    width: 400px;
-    height: 400px;
+    width: 400px; height: 400px;
     background: #7c3aed;
-    bottom: -10%;
-    right: -5%;
+    bottom: -10%; right: -5%;
     animation: orbFloat2 25s ease-in-out infinite;
 }
 
 .orb-3 {
-    width: 300px;
-    height: 300px;
+    width: 300px; height: 300px;
     background: #06b6d4;
-    top: 40%;
-    left: 50%;
+    top: 40%; left: 50%;
     animation: orbFloat3 18s ease-in-out infinite;
 }
 
@@ -478,7 +387,7 @@ body.page-exit {
 }
 
 /* ============================================
-   Scroll Reveal Animation
+   Animations — Scroll Reveal
    ============================================ */
 .reveal-on-scroll {
     opacity: 0;
@@ -493,41 +402,7 @@ body.page-exit {
 }
 
 /* ============================================
-   Active Navigation Styling
-   ============================================ */
-.nav-active {
-    color: #2b6cee !important;
-    opacity: 1 !important;
-    position: relative;
-}
-
-.nav-active::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20px;
-    height: 3px;
-    background: #2b6cee;
-    border-radius: 999px;
-}
-
-/* ============================================
-   Glass Input Focus Animation
-   ============================================ */
-.input-lucid,
-.glass-input {
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.input-lucid:focus,
-.glass-input:focus {
-    transform: scale(1.01);
-}
-
-/* ============================================
-   Button Press Animation
+   Button Press
    ============================================ */
 button {
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -538,18 +413,176 @@ button:active {
 }
 
 /* ============================================
-   Lucid Glass Hover Glow
+   Mobile Bottom Navigation
    ============================================ */
-.lucid-glass,
-.glass-card,
-.glass-panel {
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+.mobile-bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+    padding: 8px 0 calc(8px + env(safe-area-inset-bottom, 0px));
 }
 
-.lucid-glass:hover,
-.glass-card:hover,
-.glass-panel:hover {
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12),
-                0 0 0 1px rgba(255, 255, 255, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+.mobile-bottom-nav .nav-items {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.mobile-bottom-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 6px 12px;
+    border-radius: 12px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: all 0.3s ease;
+}
+
+.mobile-bottom-nav .nav-item:hover {
+    color: #2b6cee;
+}
+
+.mobile-bottom-nav .nav-item.active {
+    color: #2b6cee;
+}
+
+.mobile-bottom-nav .nav-item .material-symbols-outlined {
+    font-size: 24px;
+}
+
+@media (max-width: 768px) {
+    .mobile-bottom-nav {
+        display: block;
+    }
+
+    body {
+        padding-bottom: 80px;
+    }
+
+    footer {
+        padding-bottom: 90px !important;
+    }
+}
+
+/* ============================================
+   Settings Page — Toggle Switch
+   ============================================ */
+.toggle-switch {
+    position: relative;
+    width: 48px;
+    height: 28px;
+    flex-shrink: 0;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #cbd5e1;
+    border-radius: 999px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: #2b6cee;
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+    transform: translateX(20px);
+}
+
+/* ============================================
+   Settings Page — Sections
+   ============================================ */
+.settings-section {
+    padding: 28px 32px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.settings-section:last-child {
+    border-bottom: none;
+}
+
+.settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+}
+
+.settings-row + .settings-row {
+    border-top: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.danger-zone {
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    background: rgba(239, 68, 68, 0.03);
+}
+
+/* ============================================
+   Profile Avatar
+   ============================================ */
+.profile-avatar-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    border: 3px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   Logout Button
+   ============================================ */
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 12px;
+    background: rgba(239, 68, 68, 0.08);
+    color: #ef4444;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    transform: none;
 }
