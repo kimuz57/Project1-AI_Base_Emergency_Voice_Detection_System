@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html lang="th">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Sarabun:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b6cee",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Sarabun", "Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body
+    class="font-display bg-background-light dark:bg-background-dark min-h-screen flex flex-col items-center justify-center liquid-bg">
+    <!-- Top Navigation -->
+    <header class="fixed top-0 left-0 right-0 px-6 py-6 flex items-center justify-between z-50">
+        <div class="flex items-center gap-2 text-slate-900">
+            <span class="material-symbols-outlined text-primary text-3xl">shield</span>
+            <h2 class="text-lg font-bold tracking-tight">Guardian AI</h2>
+        </div>
+        <button
+            class="flex items-center gap-2 px-4 py-2 rounded-full glass-panel text-slate-700 font-medium text-sm hover:bg-white/60 transition-all">
+            <span class="material-symbols-outlined text-sm">shield</span>
+            ช่วยเหลือ
+        </button>
+    </header>
+    <main class="relative w-full max-w-md px-6 py-12">
+        <!-- Floating Glass Card -->
+        <div
+            class="glass-panel rounded-xl p-8 md:p-10 flex flex-col gap-8 transform hover:-translate-y-1 transition-transform duration-500">
+            <div class="text-center space-y-2">
+                <h1 class="heading-1 text-slate-900">สร้างบัญชีผู้ใช้</h1>
+                <p class="text-slate-500 text-sm">ร่วมเป็นส่วนหนึ่งของระบบรักษาความปลอดภัยอัจฉริยะแห่งอนาคต</p>
+            </div>
+            <form class="space-y-5" onsubmit="return false;">
+                <!-- Full Name Field -->
+                <div class="space-y-2">
+                    <label class="label-text text-slate-600 ml-1">ชื่อ-นามสกุล</label>
+                    <div class="relative">
+                        <span
+                            class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">person</span>
+                        <input
+                            class="glass-input w-full pl-12 pr-4 py-4 rounded-lg focus:bg-white/60 focus:ring-2 focus:ring-primary/20 transition-all text-slate-900 placeholder:text-slate-400 outline-none"
+                            placeholder="ชื่อ-นามสกุล ของคุณ" type="text" />
+                    </div>
+                </div>
+                <!-- Email Field -->
+                <div class="space-y-2">
+                    <label class="label-text text-slate-600 ml-1">ที่อยู่อีเมล</label>
+                    <div class="relative">
+                        <span
+                            class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">mail</span>
+                        <input
+                            class="glass-input w-full pl-12 pr-4 py-4 rounded-lg focus:bg-white/60 focus:ring-2 focus:ring-primary/20 transition-all text-slate-900 placeholder:text-slate-400 outline-none"
+                            placeholder="name@example.com" type="email" />
+                    </div>
+                </div>
+                <!-- Password Field -->
+                <div class="space-y-2">
+                    <label class="label-text text-slate-600 ml-1">รหัสผ่าน</label>
+                    <div class="relative">
+                        <span
+                            class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">lock</span>
+                        <input
+                            class="glass-input w-full pl-12 pr-4 py-4 rounded-lg focus:bg-white/60 focus:ring-2 focus:ring-primary/20 transition-all text-slate-900 placeholder:text-slate-400 outline-none"
+                            placeholder="••••••••" type="password" />
+                    </div>
+                </div>
+                <!-- Submit Button -->
+                <button
+                    class="w-full bg-primary hover:bg-primary/90 text-white btn-text py-4 rounded-lg shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-2 group mt-4">
+                    <span>สร้างบัญชี</span>
+                    <span
+                        class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                </button>
+            </form>
+            <!-- Bottom Link -->
+            <div class="text-center">
+                <p class="text-slate-500 text-sm">
+                    มีบัญชีอยู่แล้ว?
+                    <a class="text-primary font-semibold hover:underline decoration-2 underline-offset-4"
+                        href="#">เข้าสู่ระบบ</a>
+                </p>
+            </div>
+        </div>
+        <!-- Abstract Decorative Elements -->
+        <div class="absolute -top-20 -right-20 w-80 h-80 bg-primary/20 rounded-full blur-[100px] -z-10 animate-pulse">
+        </div>
+        <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-purple-500/15 rounded-full blur-[100px] -z-10"></div>
+    </main>
+    <!-- Footer Links -->
+    <footer class="mt-auto py-8 text-center text-slate-400 text-xs tracking-wide">
+        <div class="flex justify-center gap-6 mb-4">
+            <a class="hover:text-slate-600 transition-colors" href="#">นโยบายความเป็นส่วนตัว</a>
+            <a class="hover:text-slate-600 transition-colors" href="#">ข้อกำหนดการใช้งาน</a>
+            <a class="hover:text-slate-600 transition-colors" href="#">ความปลอดภัย</a>
+        </div>
+        <p>© 2024 Guardian AI Detection Systems Inc.</p>
+    </footer>
+</body>
+
+</html>
