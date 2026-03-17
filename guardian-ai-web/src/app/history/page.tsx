@@ -100,7 +100,7 @@ export default function HistoryPage() {
             {displayed.map((event, idx) => (
               <div
                 key={event.id}
-                className={`relative flex items-center justify-between md:justify-normal group ${
+                className={`relative flex items-center justify-between md:justify-normal group gap-4 ${
                   idx % 2 === 0 ? "md:flex-row-reverse" : ""
                 }`}
               >
@@ -141,7 +141,7 @@ export default function HistoryPage() {
 
       <footer className="mt-20 px-6 py-12 lucid-glass border-t border-white/30">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-slate-400 text-sm font-bold uppercase tracking-[0.2em] opacity-70">
-          <p>© 2024 Guardian AI. สงวนลิขสิทธิ์ทั้งหมด.</p>
+          <p>© 2026 Guardian AI. สงวนลิขสิทธิ์ทั้งหมด.</p>
           <div className="flex gap-10">
             <a className="hover:text-primary transition-colors" href="#">ความเป็นส่วนตัว</a>
             <a className="hover:text-primary transition-colors" href="#">สถานะ</a>

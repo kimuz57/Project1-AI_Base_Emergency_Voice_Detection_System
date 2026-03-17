@@ -10,18 +10,33 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const register = useUserStore((s) => s.register);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+
+    if (password !== confirmPassword) {
+      setError("รหัสผ่านไม่ตรงกัน กรุณากรอกรหัสผ่านให้ตรงกันทั้งสองช่อง");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร");
+      return;
+    }
+
     setIsLoading(true);
     const success = await register(name, email, password);
     if (success) {
       router.push("/login");
     } else {
+      setError("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
       setIsLoading(false);
     }
   };
@@ -45,6 +60,12 @@ export default function RegisterPage() {
             <h1 className="text-3xl font-semibold text-slate-900 tracking-tight">สร้างบัญชีผู้ใช้</h1>
             <p className="text-slate-500 text-sm">ร่วมเป็นส่วนหนึ่งของระบบรักษาความปลอดภัยอัจฉริยะ</p>
           </div>
+
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-xl p-3 text-red-600 text-sm text-center">
+              {error}
+            </div>
+          )}
 
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="space-y-2">
@@ -99,6 +120,44 @@ export default function RegisterPage() {
                   </span>
                 </button>
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-base text-slate-600 ml-1">ยืนยันรหัสผ่าน</label>
+              <div className="relative">
+                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">lock</span>
+                <input
+                  className={`glass-input w-full pl-12 pr-12 py-4 rounded-xl text-slate-900 placeholder:text-slate-400 outline-none ${
+                    confirmPassword && password !== confirmPassword ? "border-red-400" : ""
+                  }`}
+                  placeholder="••••••••"
+                  type={showPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors"
+                >
+                  <span className="material-symbols-outlined text-xl">
+                    {showPassword ? "visibility_off" : "visibility"}
+                  </span>
+                </button>
+              </div>
+              {confirmPassword && password !== confirmPassword && (
+                <p className="text-xs text-red-500 ml-1 flex items-center gap-1">
+                  <span className="material-symbols-outlined text-sm">error</span>
+                  รหัสผ่านไม่ตรงกัน
+                </p>
+              )}
+              {confirmPassword && password === confirmPassword && confirmPassword.length > 0 && (
+                <p className="text-xs text-green-600 ml-1 flex items-center gap-1">
+                  <span className="material-symbols-outlined text-sm">check_circle</span>
+                  รหัสผ่านตรงกัน
+                </p>
+              )}
             </div>
 
             <button
