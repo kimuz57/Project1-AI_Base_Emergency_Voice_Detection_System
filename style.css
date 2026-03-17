@@ -344,3 +344,212 @@ body {
 .floating-layer:hover {
     transform: translateY(-4px);
 }
+
+/* ============================================
+   Page Transition Animations
+   ============================================ */
+body {
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.page-loaded {
+    opacity: 1;
+}
+
+body.page-exit {
+    opacity: 0;
+    transform: scale(0.98);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   Lucid Glass Entrance Animation
+   ============================================ */
+.glass-entrance {
+    animation: glassEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes glassEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.96);
+        backdrop-filter: blur(0px);
+    }
+    60% {
+        backdrop-filter: blur(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        backdrop-filter: blur(40px) saturate(180%);
+    }
+}
+
+/* ============================================
+   Glass Shimmer Effect
+   ============================================ */
+.glass-shimmer {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+    transform: translate(-50%, -50%) scale(0);
+    animation: shimmerExpand 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes shimmerExpand {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(4);
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   Ambient Floating Orbs
+   ============================================ */
+.ambient-orbs {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.ambient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.15;
+}
+
+.orb-1 {
+    width: 500px;
+    height: 500px;
+    background: #2b6cee;
+    top: -10%;
+    left: -5%;
+    animation: orbFloat1 20s ease-in-out infinite;
+}
+
+.orb-2 {
+    width: 400px;
+    height: 400px;
+    background: #7c3aed;
+    bottom: -10%;
+    right: -5%;
+    animation: orbFloat2 25s ease-in-out infinite;
+}
+
+.orb-3 {
+    width: 300px;
+    height: 300px;
+    background: #06b6d4;
+    top: 40%;
+    left: 50%;
+    animation: orbFloat3 18s ease-in-out infinite;
+}
+
+@keyframes orbFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(80px, 60px) scale(1.1); }
+    50% { transform: translate(40px, 120px) scale(0.95); }
+    75% { transform: translate(-30px, 50px) scale(1.05); }
+}
+
+@keyframes orbFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-60px, -40px) scale(1.08); }
+    50% { transform: translate(-100px, -80px) scale(0.92); }
+    75% { transform: translate(-40px, -20px) scale(1.03); }
+}
+
+@keyframes orbFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(100px, -60px) scale(1.15); }
+    66% { transform: translate(-60px, 80px) scale(0.9); }
+}
+
+/* ============================================
+   Scroll Reveal Animation
+   ============================================ */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-on-scroll.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ============================================
+   Active Navigation Styling
+   ============================================ */
+.nav-active {
+    color: #2b6cee !important;
+    opacity: 1 !important;
+    position: relative;
+}
+
+.nav-active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 3px;
+    background: #2b6cee;
+    border-radius: 999px;
+}
+
+/* ============================================
+   Glass Input Focus Animation
+   ============================================ */
+.input-lucid,
+.glass-input {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.input-lucid:focus,
+.glass-input:focus {
+    transform: scale(1.01);
+}
+
+/* ============================================
+   Button Press Animation
+   ============================================ */
+button {
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+/* ============================================
+   Lucid Glass Hover Glow
+   ============================================ */
+.lucid-glass,
+.glass-card,
+.glass-panel {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lucid-glass:hover,
+.glass-card:hover,
+.glass-panel:hover {
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12),
+                0 0 0 1px rgba(255, 255, 255, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}

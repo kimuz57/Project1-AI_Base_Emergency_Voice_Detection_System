@@ -54,23 +54,27 @@
                         <h2 class="text-heading-3 tracking-tight">Guardian AI</h2>
                     </div>
                 </div>
-                <div class="flex items-center gap-8">
+                <nav class="hidden md:flex items-center gap-6">
+                    <a class="text-sm font-semibold text-primary border-b-2 border-primary pb-1" href="dashboard.html">แผงควบคุม</a>
+                    <a class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors" href="history.html">ประวัติ</a>
+                    <a class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors" href="devide.html">อุปกรณ์</a>
+                    <a class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors" href="setting.html">การตั้งค่า</a>
+                </nav>
+                <div class="flex items-center gap-3">
                     <div
                         class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/30 border border-white/40">
                         <span class="size-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span>
                         <span
                             class="text-small-label text-gray-700 uppercase tracking-wider font-semibold">ระบบปลอดภัย</span>
                     </div>
-                    <div class="flex items-center gap-3">
-                        <button class="p-2.5 rounded-full hover:bg-white/40 transition-colors">
-                            <span class="material-symbols-outlined text-2xl opacity-70">notifications</span>
-                        </button>
-                        <button class="p-2.5 rounded-full hover:bg-white/40 transition-colors">
-                            <span class="material-symbols-outlined text-2xl opacity-70">settings</span>
-                        </button>
-                        <div class="size-9 rounded-full bg-cover bg-center ml-2 border-2 border-white/50 shadow-sm"
-                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9PXJ7SVhlwFAS3H_ri9Sjb45-2so862RjxIQrYZk9QN0BnM-KlbpSyP_8ZmEs8hUXJYpHPYyAq0rClLJJwqg--XzIAeAMDr7LOQarZMYkk5_Abs8-rHxFf70wfCmBVkxIQDjvfL5pJhheVJRtOeLjxQXNRLQCSx58BzQikS_SuVS_YWA-gbcYNc06zDl78tnZ6I0hzHbBOwsqFTTUhijZRAcYcgbgeeMVwh49Je2wVO15dYrku9lsydytelEP7LfTTVtuOSlV-xM");'>
-                        </div>
+                    <button class="p-2.5 rounded-full hover:bg-white/40 transition-colors">
+                        <span class="material-symbols-outlined text-2xl opacity-70">notifications</span>
+                    </button>
+                    <a href="setting.html" class="p-2.5 rounded-full hover:bg-white/40 transition-colors">
+                        <span class="material-symbols-outlined text-2xl opacity-70">settings</span>
+                    </a>
+                    <div class="size-9 rounded-full bg-cover bg-center ml-2 border-2 border-white/50 shadow-sm"
+                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9PXJ7SVhlwFAS3H_ri9Sjb45-2so862RjxIQrYZk9QN0BnM-KlbpSyP_8ZmEs8hUXJYpHPYyAq0rClLJJwqg--XzIAeAMDr7LOQarZMYkk5_Abs8-rHxFf70wfCmBVkxIQDjvfL5pJhheVJRtOeLjxQXNRLQCSx58BzQikS_SuVS_YWA-gbcYNc06zDl78tnZ6I0hzHbBOwsqFTTUhijZRAcYcgbgeeMVwh49Je2wVO15dYrku9lsydytelEP7LfTTVtuOSlV-xM");'>
                     </div>
                 </div>
             </div>
@@ -238,6 +242,7 @@
             </div>
         </footer>
     </div>
+    <script src="script.js"></script>
 </body>
 
 </html>
