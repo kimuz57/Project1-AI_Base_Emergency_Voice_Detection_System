@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html class="light" lang="th">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Guardian AI - เข้าสู่ระบบ</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b6cee",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica", "Arial", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body
+    class="font-display bg-background-light dark:bg-background-dark overflow-hidden min-h-screen flex flex-col antialiased">
+    <div class="liquid-bg fixed inset-0 -z-10"></div>
+    <!-- Decorative liquid blobs - slightly enhanced for glass effect contrast -->
+    <div class="fixed top-[-5%] left-[-5%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[140px] -z-10 animate-pulse">
+    </div>
+    <div class="fixed bottom-[-5%] right-[-5%] w-[50%] h-[50%] bg-purple-400/10 rounded-full blur-[140px] -z-10"></div>
+    <div class="fixed top-1/4 left-1/3 w-[20%] h-[20%] bg-blue-300/10 rounded-full blur-[100px] -z-10"></div>
+    <header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-8 w-full">
+        <div class="flex items-center gap-3 text-slate-900 dark:text-slate-100">
+            <div class="bg-primary text-white p-2 rounded-xl shadow-lg shadow-primary/20">
+                <span class="material-symbols-outlined block">emergency</span>
+            </div>
+            <h2 class="text-lg font-bold tracking-tight">Guardian AI</h2>
+        </div>
+    </header>
+    <main class="flex-1 flex items-center justify-center p-6 perspective-[1000px]">
+        <div class="glass-card w-full max-w-[520px] p-12 md:p-16 rounded-[3rem] flex flex-col items-center layer-depth">
+            <div class="text-center mb-12">
+                <h1 class="text-slate-900 dark:text-slate-100 text-3xl font-bold tracking-tight mb-3">ยินดีต้อนรับกลับมา
+                </h1>
+                <p class="text-slate-500 dark:text-slate-400 text-sm">เข้าถึงแดชบอร์ดฉุกเฉินของคุณอย่างปลอดภัย</p>
+            </div>
+            <form class="w-full space-y-8">
+                <div class="space-y-2">
+                    <label
+                        class="block text-slate-500 dark:text-slate-400 text-[11px] uppercase tracking-widest font-bold ml-1">ที่อยู่อีเมล</label>
+                    <input
+                        class="input-lucid w-full text-slate-900 dark:text-slate-100 py-4 px-5 rounded-2xl placeholder:text-slate-400 focus:outline-none focus:ring-0"
+                        placeholder="name@company.com" type="email" />
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center ml-1">
+                        <label
+                            class="block text-slate-500 dark:text-slate-400 text-[11px] uppercase tracking-widest font-bold">รหัสผ่าน</label>
+                        <a class="text-primary text-xs font-medium hover:opacity-70 transition-opacity"
+                            href="#">ลืมรหัสผ่าน?</a>
+                    </div>
+                    <div class="relative group">
+                        <input
+                            class="input-lucid w-full text-slate-900 dark:text-slate-100 py-4 px-5 rounded-2xl placeholder:text-slate-400 focus:outline-none focus:ring-0"
+                            placeholder="••••••••" type="password" />
+                        <button
+                            class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors"
+                            type="button">
+                            <span class="material-symbols-outlined text-[20px]">visibility</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2 ml-1">
+                    <input
+                        class="rounded-md border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-black/20 text-primary focus:ring-primary/20 h-4 w-4 transition-all"
+                        id="remember" type="checkbox" />
+                    <label class="text-slate-500 dark:text-slate-400 text-xs" for="remember">จดจำอุปกรณ์นี้</label>
+                </div>
+                <div class="pt-4">
+                    <button
+                        class="w-full bg-primary hover:bg-primary/90 text-white text-sm font-bold py-5 rounded-2xl shadow-2xl shadow-primary/30 transform active:scale-[0.98] transition-all duration-200"
+                        type="submit">
+                        เข้าสู่ระบบ
+                    </button>
+                    <div class="mt-8 text-center flex flex-col gap-2">
+                        <a class="text-slate-400 dark:text-slate-500 text-xs font-medium hover:text-primary transition-colors"
+                            href="#">ขอสิทธิ์การเข้าถึงระบบ</a>
+                        <a class="text-primary text-xs font-bold hover:underline transition-colors"
+                            href="register.html">สร้างบัญชีใหม่</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+    <footer
+        class="fixed bottom-0 left-0 right-0 p-8 flex justify-center items-center text-slate-400 text-[10px] tracking-widest uppercase font-medium">
+        <p>© 2024 Guardian AI Emergency Systems</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>
