@@ -27,7 +27,7 @@ export default function WaveformAnimation() {
           key={i}
           className="w-1.5 bg-primary rounded-full transition-[height] duration-400"
           style={{
-            height: `${Math.random() * 30 + 8}px`,
+            height: "8px",
             transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         />
