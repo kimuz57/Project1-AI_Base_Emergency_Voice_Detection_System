@@ -2,8 +2,9 @@
 1.    install necessary library from package.json
 ```
 npm i
-
+```
 2. create .env
+
 ```
 DB_HOST=localhost
 DB_USER=root
