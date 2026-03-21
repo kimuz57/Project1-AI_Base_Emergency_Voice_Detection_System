@@ -25,12 +25,14 @@ pip install torch torchvision torchaudio --index-url [https://download.pytorch.o
 แล้วเอาโมเดล whisper-classifier-final ใส่ข้างใน
 
 Plaintext
-/Smart-Ward-Project
+/PROJECT_KWS
 ├── app.py                     # โค้ด Backend (FastAPI)
 ├── index.html                  # โค้ด Frontend (Dashboard หน้าเว็บ)
 ├── requirements.txt            # ไฟล์รวมรายชื่อ Library
-└── models     ##
+└── models   
       |── whisper-classifier-final   # โฟลเดอร์โมเดลจาก Kaggle
       ├── model.safetensors
       ├── config.json
       └── preprocessor_config.json
+
+      
