@@ -18,216 +18,178 @@
         .chart-container { position: relative; height: 300px; width: 100%; margin-top: 20px; background: #000; padding: 10px; border-radius: 10px; box-sizing: border-box; }
         
         button { padding: 15px 40px; font-size: 18px; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; margin: 10px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
-        #startBtn { background-color: #4CAF50; color: white; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
-        #startBtn:hover { background-color: #45a049; transform: scale(1.05); }
-        #stopBtn { background-color: #f44336; color: white; display: none; box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4); }
-        #stopBtn:hover { background-color: #d32f2f; transform: scale(1.05); }
+        #startBtn { background-color: #4CAF50; color: white; }
+        #stopBtn { background-color: #f44336; color: white; display: none; }
+        #loopbackBtn { background-color: #2196F3; color: white; font-size: 14px; padding: 10px 20px; }
         
-        body.emergency { background-color: #4a0000; }
-        body.emergency h1 { color: #ff5252; }
-        body.emergency .status-box { background: #660000; border-color: #ff0000; }
-        .emergency-text { color: #ff5252; animation: pulse 1s infinite; }
+        select { background: #333; color: white; border: 1px solid #444; padding: 10px; border-radius: 5px; margin-bottom: 15px; width: 100%; max-width: 400px; }
         
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .debug-panel { margin-top: 20px; padding: 10px; font-size: 12px; color: #666; text-align: left; background: #000; border-radius: 5px; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>🩺 Smart Ward: AI Audio Monitor</h1>
-        <p>ระบบฟังเสียงเตือนภัยผู้ป่วย: "ช่วยด้วย", "หมอ", "โอ๊ย"</p>
         
+        <div id="setupArea" style="margin-bottom: 20px;">
+            <select id="micSelect"><option value="">เลือกไมโครโฟน...</option></select><br>
+            <button id="loopbackBtn">🔊 ทดสอบเสียงออกลำโพง (OFF)</button>
+            <p style="font-size: 11px; color: #888;">*ถ้ากด ON แล้วพูดใส่ไมค์ คุณต้องได้ยินเสียงตัวเองออกลำโพงครับ*</p>
+        </div>
+
         <button id="startBtn">▶ เริ่มมอนิเตอร์</button>
         <button id="stopBtn">⏹ หยุดระบบ</button>
 
-        <div class="status-box" id="statusBox">
+        <div class="status-box">
             <div id="statusText">ระบบสแตนด์บาย...</div>
             <div class="confidence" id="confidenceText">พร้อมรับสัญญาณเสียง</div>
+            
+            <div style="margin-top: 15px; height: 35px; background: #000; border-radius: 8px; overflow: hidden; position: relative; border: 1px solid #444;">
+                <div id="volumeBar" style="height: 100%; width: 0%; background: #4CAF50;"></div>
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: bold;">
+                    SIGNAL: <span id="dbLevel">0%</span>
+                </div>
+            </div>
         </div>
 
-        <div class="chart-container">
-            <canvas id="confidenceChart"></canvas>
-        </div>
+        <div class="chart-container"><canvas id="confidenceChart"></canvas></div>
+        
+        <div class="debug-panel" id="debugLog">Logs: ระบบพร้อมทำงาน</div>
     </div>
 
     <script>
-        // ✨ [เขียนเองนักเลงพอ] ปลั๊กอินวาดเส้นแดง Threshold ที่ 85%
-        const emergencyThresholdPlugin = {
-            id: 'emergencyThreshold',
-            beforeDraw: (chart) => {
-                const { ctx, chartArea, scales: { y } } = chart;
-                if (!chartArea) return; // รอให้กราฟพร้อมก่อน
-                
-                const yPos = y.getPixelForValue(85); // หาตำแหน่งแกน Y ที่ค่า 85
-                
-                ctx.save();
-                // 1. วาดเส้นประสีแดง
-                ctx.beginPath();
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = '#ff5252';
-                ctx.setLineDash([5, 5]);
-                ctx.moveTo(chartArea.left, yPos);
-                ctx.lineTo(chartArea.right, yPos);
-                ctx.stroke();
-                
-                // 2. วาดกล่องข้อความกำกับเส้น
-                ctx.fillStyle = 'rgba(255, 82, 82, 0.9)';
-                ctx.fillRect(chartArea.left, yPos - 22, 115, 20);
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 12px Arial';
-                ctx.fillText('🚨 Threshold 85%', chartArea.left + 5, yPos - 7);
-                ctx.restore();
+        const micSelect = document.getElementById('micSelect');
+        const debugLog = document.getElementById('debugLog');
+        const loopbackBtn = document.getElementById('loopbackBtn');
+        let isLoopback = false;
+
+        function log(msg) {
+            debugLog.innerText = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            console.log(msg);
+        }
+
+        async function getDevices() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const audioInputs = devices.filter(d => d.kind === 'audioinput');
+                micSelect.innerHTML = audioInputs.map(d => `<option value="${d.deviceId}">${d.label || 'Mic'}</option>`).join('');
+                stream.getTracks().forEach(t => t.stop());
+                log("พบไมโครโฟน " + audioInputs.length + " ตัว");
+            } catch (err) {
+                log("Error: ไม่สามารถเข้าถึงไมค์ได้ - " + err.message);
+            }
+        }
+        getDevices();
+
+        const chartCtx = document.getElementById('confidenceChart').getContext('2d');
+        const chart = new Chart(chartCtx, {
+            type: 'line',
+            data: { labels: [], datasets: [{ label: 'AI Confidence (%)', data: [], borderColor: '#4CAF50', fill: true }] },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
+        });
+
+        let stream, rtcRecorder, isRecording = false, audioContext, analyser, dataArray, animationId, sourceNode;
+
+        loopbackBtn.onclick = () => {
+            isLoopback = !isLoopback;
+            loopbackBtn.innerText = `🔊 ทดสอบเสียงออกลำโพง (${isLoopback ? 'ON' : 'OFF'})`;
+            loopbackBtn.style.backgroundColor = isLoopback ? '#4CAF50' : '#2196F3';
+            if (isRecording && audioContext) {
+                if (isLoopback) sourceNode.connect(audioContext.destination);
+                else sourceNode.disconnect(audioContext.destination);
             }
         };
 
-        // --- 1. ตั้งค่ากราฟ Chart.js ---
-        const ctx = document.getElementById('confidenceChart').getContext('2d');
-        const chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: [], 
-                datasets: [{
-                    label: 'AI Confidence (%)',
-                    data: [], 
-                    borderColor: '#4CAF50',
-                    backgroundColor: 'rgba(76, 175, 80, 0.2)',
-                    borderWidth: 3,
-                    pointBackgroundColor: '#fff',
-                    pointRadius: 4,
-                    fill: true,
-                    tension: 0.4 
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: { beginAtZero: true, max: 100, grid: { color: '#333' }, ticks: { color: '#aaa' } },
-                    x: { grid: { color: '#333' }, ticks: { color: '#aaa' } }
-                },
-                plugins: {
-                    legend: { display: false }
-                }
-            },
-            plugins: [emergencyThresholdPlugin] // <--- ยัดปลั๊กอินทำเองใส่ตรงนี้!
-        });
-
-        const MAX_DATA_POINTS = 15;
-
-        // --- 2. ระบบอัดเสียงด้วย RecordRTC ---
-        let stream;
-        let rtcRecorder;
-        let isRecording = false;
-
-        const startBtn = document.getElementById('startBtn');
-        const stopBtn = document.getElementById('stopBtn');
-        const statusText = document.getElementById('statusText');
-        const confidenceText = document.getElementById('confidenceText');
-
         async function startMonitoring() {
             try {
-                stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                startBtn.style.display = 'none'; 
-                stopBtn.style.display = 'inline-block';
-                statusText.innerText = '🟢 กำลังฟังเสียง...'; 
-                isRecording = true;
+                const constraints = { 
+                    audio: { 
+                        deviceId: micSelect.value ? { exact: micSelect.value } : undefined,
+                        echoCancellation: false,
+                        noiseSuppression: false,
+                        autoGainControl: false
+                    } 
+                };
 
-                chart.data.labels = [];
-                chart.data.datasets[0].data = [];
-                chart.update();
+                stream = await navigator.mediaDevices.getUserMedia(constraints);
+                log("กำลังใช้ไมค์: " + stream.getAudioTracks()[0].label);
+                
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                sourceNode = audioContext.createMediaStreamSource(stream);
+                sourceNode.connect(analyser);
+
+                if (isLoopback) sourceNode.connect(audioContext.destination);
+
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+                isRecording = true;
+                updateVolume();
+
+                document.getElementById('startBtn').style.display = 'none';
+                document.getElementById('stopBtn').style.display = 'inline-block';
+                document.getElementById('statusText').innerText = '🟢 กำลังฟังเสียง...';
 
                 recordLoop();
-            } catch (err) { 
-                alert("กรุณาเปิดไมค์ด้วยครับ!"); 
-                console.error(err);
+            } catch (err) {
+                alert("Error: " + err.message);
             }
+        }
+
+        function updateVolume() {
+            if (!isRecording) return;
+            analyser.getByteFrequencyData(dataArray);
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+            let vol = Math.min((sum / dataArray.length) * 3, 100);
+            document.getElementById('volumeBar').style.width = vol + "%";
+            document.getElementById('dbLevel').innerText = Math.round(vol) + "%";
+            animationId = requestAnimationFrame(updateVolume);
         }
 
         function recordLoop() {
             if (!isRecording) return;
-
-            rtcRecorder = RecordRTC(stream, {
-                type: 'audio',
-                mimeType: 'audio/wav',
-                recorderType: StereoAudioRecorder,
-                desiredSampRate: 16000,
-                numberOfAudioChannels: 1
-            });
-
+            rtcRecorder = RecordRTC(stream, { type: 'audio', mimeType: 'audio/wav', recorderType: StereoAudioRecorder, desiredSampRate: 16000, numberOfAudioChannels: 1 });
             rtcRecorder.startRecording();
-
             setTimeout(() => {
-                if (!isRecording) {
-                    rtcRecorder.stopRecording();
-                    return;
-                }
-                
-                rtcRecorder.stopRecording(() => {
-                    let blob = rtcRecorder.getBlob(); 
-                    sendToBackend(blob);              
-                    recordLoop();                     
-                });
+                if (!isRecording) return;
+                rtcRecorder.stopRecording(() => { sendToBackend(rtcRecorder.getBlob()); recordLoop(); });
             }, 5000);
         }
 
-        function stopMonitoring() {
-            isRecording = false;
-            if (rtcRecorder) rtcRecorder.stopRecording();
-            
-            startBtn.style.display = 'inline-block'; 
-            stopBtn.style.display = 'none';
-            statusText.innerText = 'ระบบสแตนด์บาย...'; 
-            confidenceText.innerText = 'หยุดรับสัญญาณแล้ว';
-            document.body.classList.remove('emergency'); 
-            statusText.classList.remove('emergency-text');
-            chart.data.datasets[0].borderColor = '#4CAF50';
-            chart.update();
-        }
-
         async function sendToBackend(blob) {
-            const formData = new FormData();
-            formData.append('audio', blob, 'audio.wav'); 
-
+            const fd = new FormData(); fd.append('audio', blob, 'audio.wav');
             try {
-                const response = await fetch('http://127.0.0.1:5000/predict', { method: 'POST', body: formData });
-                const result = await response.json();
+                const res = await fetch('http://localhost:3001/events/upload-audio', { method: 'POST', body: fd });
+                const json = await res.json();
+                const conf = (json.confidence || 0) * 100;
+                document.getElementById('confidenceText').innerText = `AI: ${conf.toFixed(2)}% (${json.transcribed_text || 'ไม่ได้ยินเสียง'})`;
                 
-                const confValue = result.confidence * 100;
-                const confPercent = confValue.toFixed(2);
-                confidenceText.innerText = `ความมั่นใจ AI: ${confPercent}%`;
-
-                const now = new Date();
-                const timeString = now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                
-                chart.data.labels.push(timeString);
-                chart.data.datasets[0].data.push(confValue);
-
-                if (chart.data.labels.length > MAX_DATA_POINTS) {
-                    chart.data.labels.shift();
-                    chart.data.datasets[0].data.shift();
-                }
-
-                if (result.status === "emergency") {
-                    document.body.classList.add('emergency'); 
-                    statusText.classList.add('emergency-text');
-                    statusText.innerText = '🚨 ตรวจพบเสียงขอความช่วยเหลือ!';
-                    chart.data.datasets[0].borderColor = '#ff5252'; 
-                } else {
-                    document.body.classList.remove('emergency'); 
-                    statusText.classList.remove('emergency-text');
-                    statusText.innerText = '🟢 ปกติ (กำลังฟัง...)';
-                    chart.data.datasets[0].borderColor = '#4CAF50'; 
-                }
-                
+                chart.data.labels.push(new Date().toLocaleTimeString());
+                chart.data.datasets[0].data.push(conf);
+                if (chart.data.labels.length > 15) { chart.data.labels.shift(); chart.data.datasets[0].data.shift(); }
                 chart.update();
 
-            } catch (error) { 
-                console.error("เชื่อมต่อ Backend ไม่ได้:", error); 
-            }
+                if (json.status === "emergency") {
+                    document.body.style.backgroundColor = "#4a0000";
+                    document.getElementById('statusText').innerText = "🚨 ตรวจพบ: " + json.keyword;
+                } else {
+                    document.body.style.backgroundColor = "#121212";
+                    document.getElementById('statusText').innerText = "🟢 ปกติ";
+                }
+            } catch (e) { log("Error: ติดต่อ Server ไม่ได้"); }
         }
 
-        startBtn.addEventListener('click', startMonitoring);
-        stopBtn.addEventListener('click', stopMonitoring);
+        document.getElementById('startBtn').onclick = startMonitoring;
+        document.getElementById('stopBtn').onclick = () => {
+            isRecording = false;
+            cancelAnimationFrame(animationId);
+            if (audioContext) audioContext.close();
+            if (stream) stream.getTracks().forEach(t => t.stop());
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('stopBtn').style.display = 'none';
+        };
     </script>
 </body>
 </html>

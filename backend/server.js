@@ -60,12 +60,17 @@ app.set("io", io);
 // ──────────────────────────────────
 
 // Health check
-app.get("/", (req, res) => {
+app.get("/health", (req, res) => {
   res.json({
     status: "✅ Guardian AI Backend is running",
     version: "1.0.0",
     timestamp: new Date().toISOString(),
   });
+});
+
+// Serve the test monitor page at the root
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "index.html"));
 });
 
 // Auth
