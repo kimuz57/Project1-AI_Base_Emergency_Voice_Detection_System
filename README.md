@@ -21,7 +21,7 @@ pip install -r requirements.txt
 Bash
 pip install torch torchvision torchaudio --index-url [https://download.pytorch.org/whl/cu118](https://download.pytorch.org/whl/cu118)
 3. การจัดวางโฟลเดอร์โมเดล
-สร้างโฟลเดอร์ models --> [download](https://drive.google.com/file/d/1icb6BrxRqmFkjgtbKRovwOwfowtAuctP/view?usp=sharing)
+สร้างโฟลเดอร์ models --> [![Download](https://img.shields.io/badge/Google%20Drive-Open%20File-green?style=for-the-badge&logo=google-drive)](https://drive.google.com/file/d/1icb6BrxRqmFkjgtbKRovwOwfowtAuctP/view)
 แล้วเอาโมเดล whisper-classifier-final ใส่ข้างใน
 
 Plaintext
