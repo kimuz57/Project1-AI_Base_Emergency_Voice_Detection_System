@@ -3,193 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Patient Monitor Dashboard</title>
-    
+    <title>Smart Ward: AI Audio Monitor</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.6.2/RecordRTC.min.js"></script>
-    
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background-color: #121212; color: white; padding: 20px; transition: background-color 0.3s; margin: 0; }
-        .container { max-width: 800px; margin: 0 auto; background: #1e1e1e; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.8); }
-        h1 { margin-top: 0; color: #4CAF50; }
-        .status-box { margin: 20px 0; padding: 20px; border-radius: 10px; background: #2d2d2d; border: 2px solid #3d3d3d; }
-        #statusText { font-size: 28px; font-weight: bold; }
-        .confidence { font-size: 18px; color: #aaa; margin-top: 10px; }
-        .chart-container { position: relative; height: 300px; width: 100%; margin-top: 20px; background: #000; padding: 10px; border-radius: 10px; box-sizing: border-box; }
-        
-        button { padding: 15px 40px; font-size: 18px; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; margin: 10px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; text-align: center; background-color: #121212; color: white; padding: 20px; transition: background-color 0.6s; margin: 0; }
+        .container { max-width: 820px; margin: 0 auto; background: #1e1e1e; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.8); }
+        h1 { margin-top: 0; color: #4CAF50; transition: color 0.5s; }
+
+        .status-box { margin: 20px 0; padding: 20px; border-radius: 12px; background: #2d2d2d; border: 2px solid #3d3d3d; transition: all 0.5s; }
+        #statusText { font-size: 26px; font-weight: bold; }
+        #transcriptText { font-size: 15px; color: #aaa; margin-top: 6px; min-height: 22px; }
+        #keywordText { margin-top: 6px; min-height: 24px; }
+        .confidence { font-size: 17px; color: #aaa; margin-top: 8px; }
+
+        /* Risk level colors */
+        body.emergency { background-color: #4a0000; }
+        body.emergency h1 { color: #ff5252; }
+        body.emergency .status-box { background: #5a0000; border-color: #ff0000; }
+
+        body.warning { background-color: #3a2000; }
+        body.warning h1 { color: #ff9800; }
+        body.warning .status-box { background: #3a2500; border-color: #ff9800; }
+
+        body.observe { background-color: #2a2a00; }
+        body.observe h1 { color: #ffeb3b; }
+        body.observe .status-box { background: #2a2a00; border-color: #ffeb3b; }
+
+        .pulse-red { color: #ff5252; animation: pulse 0.8s infinite; }
+        .pulse-orange { color: #ff9800; animation: pulse 1s infinite; }
+        .pulse-yellow { color: #ffeb3b; }
+        .silent-text { color: #555; }
+
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+
+        .keyword-badge { display: inline-block; padding: 3px 12px; border-radius: 12px; font-size: 14px; font-weight: bold; margin: 0 4px; }
+        .badge-red { background: #ff5252; color: white; }
+        .badge-orange { background: #ff9800; color: white; }
+        .badge-yellow { background: #ffeb3b; color: #333; }
+        .badge-blue { background: #2196F3; color: white; }
+
+        /* Risk meter */
+        .risk-meter { margin: 16px 0 4px; }
+        .risk-bar-wrap { height: 10px; background: #333; border-radius: 5px; overflow: hidden; }
+        .risk-bar { height: 100%; border-radius: 5px; transition: width 0.6s ease, background 0.6s ease; }
+
+        .chart-container { position: relative; height: 280px; width: 100%; margin-top: 20px; background: #000; padding: 10px; border-radius: 10px; }
+
+        button { padding: 14px 38px; font-size: 17px; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; margin: 8px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
         #startBtn { background-color: #4CAF50; color: white; }
+        #startBtn:hover { background-color: #45a049; transform: scale(1.05); }
         #stopBtn { background-color: #f44336; color: white; display: none; }
-        #loopbackBtn { background-color: #2196F3; color: white; font-size: 14px; padding: 10px 20px; }
-        
-        select { background: #333; color: white; border: 1px solid #444; padding: 10px; border-radius: 5px; margin-bottom: 15px; width: 100%; max-width: 400px; }
-        
-        .debug-panel { margin-top: 20px; padding: 10px; font-size: 12px; color: #666; text-align: left; background: #000; border-radius: 5px; }
+        #stopBtn:hover { transform: scale(1.05); }
     </style>
 </head>
 <body>
-
     <div class="container">
         <h1>🩺 Smart Ward: AI Audio Monitor</h1>
-        
-        <div id="setupArea" style="margin-bottom: 20px;">
-            <select id="micSelect"><option value="">เลือกไมโครโฟน...</option></select><br>
-            <button id="loopbackBtn">🔊 ทดสอบเสียงออกลำโพง (OFF)</button>
-            <p style="font-size: 11px; color: #888;">*ถ้ากด ON แล้วพูดใส่ไมค์ คุณต้องได้ยินเสียงตัวเองออกลำโพงครับ*</p>
-        </div>
+        <p>ระบบฟังเสียงเตือนภัยผู้ป่วย — วิเคราะห์ระดับความเสี่ยง 4 ระดับ</p>
 
         <button id="startBtn">▶ เริ่มมอนิเตอร์</button>
         <button id="stopBtn">⏹ หยุดระบบ</button>
 
         <div class="status-box">
             <div id="statusText">ระบบสแตนด์บาย...</div>
-            <div class="confidence" id="confidenceText">พร้อมรับสัญญาณเสียง</div>
-            
-            <div style="margin-top: 15px; height: 35px; background: #000; border-radius: 8px; overflow: hidden; position: relative; border: 1px solid #444;">
-                <div id="volumeBar" style="height: 100%; width: 0%; background: #4CAF50;"></div>
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: bold;">
-                    SIGNAL: <span id="dbLevel">0%</span>
+            <div id="transcriptText"></div>
+            <div id="keywordText"></div>
+            <div class="risk-meter">
+                <div class="risk-bar-wrap">
+                    <div class="risk-bar" id="riskBar" style="width:0%; background:#4CAF50;"></div>
                 </div>
             </div>
+            <div class="confidence" id="confidenceText">พร้อมรับสัญญาณเสียง</div>
         </div>
 
-        <div class="chart-container"><canvas id="confidenceChart"></canvas></div>
-        
-        <div class="debug-panel" id="debugLog">Logs: ระบบพร้อมทำงาน</div>
+        <div class="chart-container">
+            <canvas id="confidenceChart"></canvas>
+        </div>
     </div>
 
     <script>
-        const micSelect = document.getElementById('micSelect');
-        const debugLog = document.getElementById('debugLog');
-        const loopbackBtn = document.getElementById('loopbackBtn');
-        let isLoopback = false;
+        // ===== Threshold แต่ละระดับ =====
+        const T_EMERGENCY = 0.75;
+        const T_WARNING   = 0.50;
+        const T_OBSERVE   = 0.25;
 
-        function log(msg) {
-            debugLog.innerText = `[${new Date().toLocaleTimeString()}] ${msg}`;
-            console.log(msg);
-        }
-
-        async function getDevices() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                const devices = await navigator.mediaDevices.enumerateDevices();
-                const audioInputs = devices.filter(d => d.kind === 'audioinput');
-                micSelect.innerHTML = audioInputs.map(d => `<option value="${d.deviceId}">${d.label || 'Mic'}</option>`).join('');
-                stream.getTracks().forEach(t => t.stop());
-                log("พบไมโครโฟน " + audioInputs.length + " ตัว");
-            } catch (err) {
-                log("Error: ไม่สามารถเข้าถึงไมค์ได้ - " + err.message);
-            }
-        }
-        getDevices();
-
-        const chartCtx = document.getElementById('confidenceChart').getContext('2d');
-        const chart = new Chart(chartCtx, {
-            type: 'line',
-            data: { labels: [], datasets: [{ label: 'AI Confidence (%)', data: [], borderColor: '#4CAF50', fill: true }] },
-            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
-        });
-
-        let stream, rtcRecorder, isRecording = false, audioContext, analyser, dataArray, animationId, sourceNode;
-
-        loopbackBtn.onclick = () => {
-            isLoopback = !isLoopback;
-            loopbackBtn.innerText = `🔊 ทดสอบเสียงออกลำโพง (${isLoopback ? 'ON' : 'OFF'})`;
-            loopbackBtn.style.backgroundColor = isLoopback ? '#4CAF50' : '#2196F3';
-            if (isRecording && audioContext) {
-                if (isLoopback) sourceNode.connect(audioContext.destination);
-                else sourceNode.disconnect(audioContext.destination);
+        // ===== กราฟ =====
+        const thresholdPlugin = {
+            id: 'thresholds',
+            beforeDraw: (chart) => {
+                const { ctx, chartArea, scales: { y } } = chart;
+                if (!chartArea) return;
+                const lines = [
+                    { val: T_EMERGENCY * 100, color: '#ff5252', label: '🔴 วิกฤต 75%' },
+                    { val: T_WARNING * 100,   color: '#ff9800', label: '🟠 เฝ้าระวัง 50%' },
+                    { val: T_OBSERVE * 100,   color: '#ffeb3b', label: '🟡 สังเกต 25%' },
+                ];
+                lines.forEach(({ val, color, label }) => {
+                    const yPos = y.getPixelForValue(val);
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeStyle = color;
+                    ctx.setLineDash([4, 4]);
+                    ctx.moveTo(chartArea.left, yPos);
+                    ctx.lineTo(chartArea.right, yPos);
+                    ctx.stroke();
+                    ctx.fillStyle = color + 'cc';
+                    ctx.fillRect(chartArea.right - 130, yPos - 16, 128, 14);
+                    ctx.fillStyle = '#111';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.fillText(label, chartArea.right - 126, yPos - 5);
+                    ctx.restore();
+                });
             }
         };
 
-        async function startMonitoring() {
-            try {
-                const constraints = { 
-                    audio: { 
-                        deviceId: micSelect.value ? { exact: micSelect.value } : undefined,
-                        echoCancellation: false,
-                        noiseSuppression: false,
-                        autoGainControl: false
-                    } 
-                };
+        const ctx = document.getElementById('confidenceChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    data: [],
+                    borderColor: '#4CAF50',
+                    backgroundColor: 'rgba(76,175,80,0.12)',
+                    borderWidth: 2.5,
+                    pointBackgroundColor: '#fff',
+                    pointRadius: 4,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 400 },
+                scales: {
+                    y: { beginAtZero: true, max: 100, grid: { color: '#2a2a2a' }, ticks: { color: '#aaa' } },
+                    x: { grid: { color: '#2a2a2a' }, ticks: { color: '#aaa', maxTicksLimit: 8 } }
+                },
+                plugins: { legend: { display: false } }
+            },
+            plugins: [thresholdPlugin]
+        });
 
-                stream = await navigator.mediaDevices.getUserMedia(constraints);
-                log("กำลังใช้ไมค์: " + stream.getAudioTracks()[0].label);
-                
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                analyser = audioContext.createAnalyser();
-                sourceNode = audioContext.createMediaStreamSource(stream);
-                sourceNode.connect(analyser);
+        const MAX_POINTS = 20;
+        let stream, rtcRecorder, isRecording = false;
 
-                if (isLoopback) sourceNode.connect(audioContext.destination);
+        const startBtn     = document.getElementById('startBtn');
+        const stopBtn      = document.getElementById('stopBtn');
+        const statusText   = document.getElementById('statusText');
+        const transcriptEl = document.getElementById('transcriptText');
+        const keywordEl    = document.getElementById('keywordText');
+        const confidenceEl = document.getElementById('confidenceText');
+        const riskBar      = document.getElementById('riskBar');
 
-                dataArray = new Uint8Array(analyser.frequencyBinCount);
-                isRecording = true;
-                updateVolume();
-
-                document.getElementById('startBtn').style.display = 'none';
-                document.getElementById('stopBtn').style.display = 'inline-block';
-                document.getElementById('statusText').innerText = '🟢 กำลังฟังเสียง...';
-
-                recordLoop();
-            } catch (err) {
-                alert("Error: " + err.message);
-            }
+        function setRiskBar(pct, color) {
+            riskBar.style.width = Math.min(100, pct) + '%';
+            riskBar.style.background = color;
         }
 
-        function updateVolume() {
-            if (!isRecording) return;
-            analyser.getByteFrequencyData(dataArray);
-            let sum = 0;
-            for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
-            let vol = Math.min((sum / dataArray.length) * 3, 100);
-            document.getElementById('volumeBar').style.width = vol + "%";
-            document.getElementById('dbLevel').innerText = Math.round(vol) + "%";
-            animationId = requestAnimationFrame(updateVolume);
+        async function startMonitoring() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                startBtn.style.display = 'none';
+                stopBtn.style.display = 'inline-block';
+                isRecording = true;
+                clearUI();
+                statusText.innerText = '🟢 กำลังฟังเสียง...';
+                confidenceEl.innerText = 'รอวิเคราะห์...';
+                chart.data.labels = [];
+                chart.data.datasets[0].data = [];
+                chart.update();
+                recordLoop();
+            } catch (e) {
+                alert("กรุณาอนุญาตการใช้งานไมโครโฟนครับ!");
+            }
         }
 
         function recordLoop() {
             if (!isRecording) return;
-            rtcRecorder = RecordRTC(stream, { type: 'audio', mimeType: 'audio/wav', recorderType: StereoAudioRecorder, desiredSampRate: 16000, numberOfAudioChannels: 1 });
+            rtcRecorder = RecordRTC(stream, {
+                type: 'audio', mimeType: 'audio/wav',
+                recorderType: StereoAudioRecorder,
+                desiredSampRate: 16000, numberOfAudioChannels: 1
+            });
             rtcRecorder.startRecording();
             setTimeout(() => {
-                if (!isRecording) return;
-                rtcRecorder.stopRecording(() => { sendToBackend(rtcRecorder.getBlob()); recordLoop(); });
+                if (!isRecording) { rtcRecorder.stopRecording(); return; }
+                rtcRecorder.stopRecording(() => {
+                    sendToBackend(rtcRecorder.getBlob());
+                    recordLoop();
+                });
             }, 5000);
         }
 
-        async function sendToBackend(blob) {
-            const fd = new FormData(); fd.append('audio', blob, 'audio.wav');
-            try {
-                const res = await fetch('http://localhost:3001/events/upload-audio', { method: 'POST', body: fd });
-                const json = await res.json();
-                const conf = (json.confidence || 0) * 100;
-                document.getElementById('confidenceText').innerText = `AI: ${conf.toFixed(2)}% (${json.transcribed_text || 'ไม่ได้ยินเสียง'})`;
-                
-                chart.data.labels.push(new Date().toLocaleTimeString());
-                chart.data.datasets[0].data.push(conf);
-                if (chart.data.labels.length > 15) { chart.data.labels.shift(); chart.data.datasets[0].data.shift(); }
-                chart.update();
-
-                if (json.status === "emergency") {
-                    document.body.style.backgroundColor = "#4a0000";
-                    document.getElementById('statusText').innerText = "🚨 ตรวจพบ: " + json.keyword;
-                } else {
-                    document.body.style.backgroundColor = "#121212";
-                    document.getElementById('statusText').innerText = "🟢 ปกติ";
-                }
-            } catch (e) { log("Error: ติดต่อ Server ไม่ได้"); }
+        function stopMonitoring() {
+            isRecording = false;
+            if (rtcRecorder) rtcRecorder.stopRecording();
+            startBtn.style.display = 'inline-block';
+            stopBtn.style.display = 'none';
+            clearUI();
+            statusText.innerText = 'ระบบสแตนด์บาย...';
+            confidenceEl.innerText = 'หยุดรับสัญญาณแล้ว';
         }
 
-        document.getElementById('startBtn').onclick = startMonitoring;
-        document.getElementById('stopBtn').onclick = () => {
-            isRecording = false;
-            cancelAnimationFrame(animationId);
-            if (audioContext) audioContext.close();
-            if (stream) stream.getTracks().forEach(t => t.stop());
-            document.getElementById('startBtn').style.display = 'inline-block';
-            document.getElementById('stopBtn').style.display = 'none';
-        };
+        function clearUI() {
+            statusText.className = '';
+            document.body.className = '';
+            transcriptEl.innerText = '';
+            keywordEl.innerText = '';
+            setRiskBar(0, '#4CAF50');
+            chart.data.datasets[0].borderColor = '#4CAF50';
+        }
+
+        async function sendToBackend(blob) {
+            const fd = new FormData();
+            fd.append('audio', blob, 'audio.wav');
+            try {
+                const res = await fetch('http://127.0.0.1:5000/predict', { method: 'POST', body: fd });
+                const r = await res.json();
+
+                transcriptEl.innerText = r.text ? `🎤 "${r.text}"` : '';
+
+                // เงียบ
+                if (r.silent || r.confidence === 0.0) {
+                    statusText.className = 'silent-text';
+                    statusText.innerText = '🔇 ไม่พบเสียงพูด';
+                    confidenceEl.innerText = 'ปกติ';
+                    keywordEl.innerText = '';
+                    document.body.className = '';
+                    setRiskBar(0, '#4CAF50');
+                    return;
+                }
+
+                const pct = r.confidence * 100;
+                const t   = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                chart.data.labels.push(t);
+                chart.data.datasets[0].data.push(pct);
+                if (chart.data.labels.length > MAX_POINTS) {
+                    chart.data.labels.shift();
+                    chart.data.datasets[0].data.shift();
+                }
+
+                if (r.status === 'emergency') {
+                    document.body.className = 'emergency';
+                    statusText.className = 'pulse-red';
+                    statusText.innerText = '🚨 ตรวจพบเสียงขอความช่วยเหลือ!';
+                    keywordEl.innerHTML = `<span class="keyword-badge badge-red">🔑 "${r.keyword}" — ${r.level_name}</span>`;
+                    confidenceEl.innerText = `ความเสี่ยง: ${pct.toFixed(0)}%`;
+                    chart.data.datasets[0].borderColor = '#ff5252';
+                    setRiskBar(pct, '#ff5252');
+
+                } else if (r.status === 'warning') {
+                    document.body.className = 'warning';
+                    statusText.className = 'pulse-orange';
+                    statusText.innerText = '⚠️ พบเสียงน่าเป็นห่วง';
+                    keywordEl.innerHTML = `<span class="keyword-badge badge-orange">🔑 "${r.keyword}" — ${r.level_name}</span>`;
+                    confidenceEl.innerText = `ความเสี่ยง: ${pct.toFixed(0)}%`;
+                    chart.data.datasets[0].borderColor = '#ff9800';
+                    setRiskBar(pct, '#ff9800');
+
+                } else if (r.status === 'observe') {
+                    document.body.className = 'observe';
+                    statusText.className = 'pulse-yellow';
+                    statusText.innerText = '👀 สังเกตการณ์';
+                    keywordEl.innerHTML = r.keyword
+                        ? `<span class="keyword-badge badge-yellow">🔑 "${r.keyword}" — ${r.level_name}</span>`
+                        : '';
+                    confidenceEl.innerText = `ความเสี่ยง: ${pct.toFixed(0)}%`;
+                    chart.data.datasets[0].borderColor = '#ffeb3b';
+                    setRiskBar(pct, '#ffeb3b');
+
+                } else {
+                    document.body.className = '';
+                    statusText.className = '';
+                    statusText.innerText = '🟢 ปกติ';
+                    keywordEl.innerText = '';
+                    confidenceEl.innerText = r.text ? `ได้ยิน: "${r.text}"` : 'ไม่พบเสียงผิดปกติ';
+                    chart.data.datasets[0].borderColor = '#4CAF50';
+                    setRiskBar(pct, '#4CAF50');
+                }
+
+                chart.update();
+            } catch (err) {
+                console.error("เชื่อมต่อ Backend ไม่ได้:", err);
+            }
+        }
+
+        startBtn.addEventListener('click', startMonitoring);
+        stopBtn.addEventListener('click', stopMonitoring);
     </script>
 </body>
 </html>
