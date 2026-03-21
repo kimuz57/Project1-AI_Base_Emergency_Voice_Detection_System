@@ -21,14 +21,15 @@ pip install -r requirements.txt
 Bash
 pip install torch torchvision torchaudio --index-url [https://download.pytorch.org/whl/cu118](https://download.pytorch.org/whl/cu118)
 3. การจัดวางโฟลเดอร์โมเดล
-ตรวจสอบให้แน่ใจว่านำโฟลเดอร์ whisper-classifier-final มาวางไว้ที่เดียวกับไฟล์ main.py โดยโครงสร้างไฟล์ในโปรเจกต์ควรเป็นแบบนี้:
+สร้างโฟลเดอร์ models
+แล้วเอาโมเดล whisper-classifier-final ใส่ข้างใน
 
 Plaintext
 /Smart-Ward-Project
 ├── app.py                     # โค้ด Backend (FastAPI)
 ├── index.html                  # โค้ด Frontend (Dashboard หน้าเว็บ)
 ├── requirements.txt            # ไฟล์รวมรายชื่อ Library
-└── models
+└── models     ##
       |── whisper-classifier-final   # โฟลเดอร์โมเดลจาก Kaggle
       ├── model.safetensors
       ├── config.json
