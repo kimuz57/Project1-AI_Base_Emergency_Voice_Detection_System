@@ -25,10 +25,11 @@ pip install torch torchvision torchaudio --index-url [https://download.pytorch.o
 
 Plaintext
 /Smart-Ward-Project
-├── main.py                     # โค้ด Backend (FastAPI)
+├── app.py                     # โค้ด Backend (FastAPI)
 ├── index.html                  # โค้ด Frontend (Dashboard หน้าเว็บ)
 ├── requirements.txt            # ไฟล์รวมรายชื่อ Library
-└── /whisper-classifier-final   # โฟลเดอร์โมเดลจาก Kaggle
+└── models
+      |── whisper-classifier-final   # โฟลเดอร์โมเดลจาก Kaggle
       ├── model.safetensors
       ├── config.json
       └── preprocessor_config.json
