@@ -14,6 +14,7 @@ target_words = ['ช่วยด้วย', 'หมอ', 'เจ็บ', 'ปว
                 'ไม่ไหวแล้ว','พยาบาล','ฉุกเฉิน','ด่วน','ช่วยที',
                 'ช่วยด้วยนะ','ช่วยด้วยครับ','ช่วยด้วยค่ะ']
 
+
 def contains_keyword(text):
     if not text: return False
     for word in target_words:
