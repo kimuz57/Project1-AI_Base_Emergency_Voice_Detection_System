@@ -13,3 +13,22 @@
 เปิด Terminal หรือ Command Prompt ในโฟลเดอร์โปรเจกต์ แล้วรันคำสั่ง:
 ```bash
 pip install -r requirements.txt
+
+
+**2. (สำคัญมาก✨) ติดตั้ง PyTorch สำหรับรันบนการ์ดจอ NVIDIA (GPU)**
+เพื่อให้ AI ดึงพลังของ GPU มาใช้ทำงานได้อย่างเต็มที่และรวดเร็ว ให้รันคำสั่งนี้เพิ่มเติม:
+
+Bash
+pip install torch torchvision torchaudio --index-url [https://download.pytorch.org/whl/cu118](https://download.pytorch.org/whl/cu118)
+3. การจัดวางโฟลเดอร์โมเดล
+ตรวจสอบให้แน่ใจว่านำโฟลเดอร์ whisper-classifier-final มาวางไว้ที่เดียวกับไฟล์ main.py โดยโครงสร้างไฟล์ในโปรเจกต์ควรเป็นแบบนี้:
+
+Plaintext
+/Smart-Ward-Project
+├── main.py                     # โค้ด Backend (FastAPI)
+├── index.html                  # โค้ด Frontend (Dashboard หน้าเว็บ)
+├── requirements.txt            # ไฟล์รวมรายชื่อ Library
+└── /whisper-classifier-final   # โฟลเดอร์โมเดลจาก Kaggle
+      ├── model.safetensors
+      ├── config.json
+      └── preprocessor_config.json
