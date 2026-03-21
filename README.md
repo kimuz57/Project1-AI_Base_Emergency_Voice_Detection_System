@@ -27,7 +27,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 ---
 
-## ▶️ Usage
+##Usage
 
 ```bash
 python app.py
@@ -36,12 +36,12 @@ python app.py
 เปิดเว็บที่:
 
 ```
-http://localhost:8000
+http://localhost:3000
 ```
 
 ---
 
-## 📁 Project Structure
+##Project Structure
 
 ```plaintext
 /PROJECT_KWS
@@ -54,29 +54,3 @@ http://localhost:8000
         ├── config.json
         └── preprocessor_config.json
 ```
-
----
-
-## ⚡ Features
-
-* 🎤 Real-time Keyword Spotting
-* ⚡ FastAPI Backend
-* 🌐 Web Dashboard
-* 🚀 GPU Acceleration (PyTorch)
-
----
-
-## 🧠 Tech Stack
-
-* Python
-* FastAPI
-* PyTorch
-* Transformers
-
----
-
-## 👨‍💻 Author
-
-Developed by **Krit**
-
----
