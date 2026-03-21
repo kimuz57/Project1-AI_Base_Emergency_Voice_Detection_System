@@ -1,37 +1,95 @@
-## คู่มือการติดตั้งและการใช้งาน (Installation Guide)
+## 🚀 PROJECT_KWS - Keyword Spotting AI
 
-### สิ่งที่ต้องเตรียม (Prerequisites)
-* **Python:** เวอร์ชัน 3.10 หรือ 3.11
-* **Hardware:** แนะนำให้ใช้การ์ดจอ NVIDIA (เช่น RTX 3050 ขึ้นไป) เพื่อให้ AI ประมวลผลแบบ Real-time ได้ลื่นไหล
-* **ไฟล์โมเดล:** ต้องมีโฟลเดอร์ `whisper-classifier-final` วางเตรียมไว้
+<p align="center">
+  <a href="https://drive.google.com/file/d/1icb6BrxRqmFkjgtbKRovwOwfowtAuctP/view">
+    <img src="https://img.shields.io/badge/📥_Download_Model-Google_Drive-green?style=for-the-badge&logo=google-drive">
+  </a>
+</p>
 
 ---
 
-### ขั้นตอนการติดตั้ง
+## 📦 Installation Guide
 
-**1. ติดตั้ง Library พื้นฐาน**
-เปิด Terminal หรือ Command Prompt ในโฟลเดอร์โปรเจกต์ แล้วรันคำสั่ง:
+### 🧰 Prerequisites
+
+* Python **3.10 / 3.11**
+* NVIDIA GPU (แนะนำ RTX 3050+)
+* โมเดล `whisper-classifier-final`
+
+---
+
+### ⚙️ Installation
+
+#### 1️⃣ Install Dependencies
+
 ```bash
 pip install -r requirements.txt
+```
 
+#### 2️⃣ Install PyTorch (GPU)
 
-**2.ติดตั้ง PyTorch สำหรับรันบนการ์ดจอ NVIDIA (GPU)**
-เพื่อให้ AI ดึงพลังของ GPU มาใช้ทำงานได้อย่างเต็มที่และรวดเร็ว ให้รันคำสั่งนี้เพิ่มเติม:
+```bash
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
 
-Bash
-pip install torch torchvision torchaudio --index-url [https://download.pytorch.org/whl/cu118](https://download.pytorch.org/whl/cu118)
-3. การจัดวางโฟลเดอร์โมเดล
-สร้างโฟลเดอร์ models --> [![Download](https://img.shields.io/badge/Google%20Drive-Open%20File-green?style=for-the-badge&logo=google-drive)](https://drive.google.com/file/d/1icb6BrxRqmFkjgtbKRovwOwfowtAuctP/view)
-แล้วเอาโมเดล whisper-classifier-final ใส่ข้างใน
+#### 3️⃣ Setup Model
 
-Plaintext
+* สร้างโฟลเดอร์ `models`
+* ดาวน์โหลดโมเดลจากปุ่มด้านบน
+* นำ `whisper-classifier-final` ไปใส่ในโฟลเดอร์
+
+---
+
+## ▶️ Usage
+
+```bash
+python app.py
+```
+
+เปิดเว็บที่:
+
+```
+http://localhost:8000
+```
+
+---
+
+## 📁 Project Structure
+
+```plaintext
 /PROJECT_KWS
-├── app.py                     # โค้ด Backend (FastAPI)
-├── index.html                  # โค้ด Frontend (Dashboard หน้าเว็บ)
-├── requirements.txt            # ไฟล์รวมรายชื่อ Library
-└── models   
-      |── whisper-classifier-final   # โฟลเดอร์โมเดลจาก Kaggle
-      ├── model.safetensors
-      ├── config.json
-      └── preprocessor_config.json
+├── app.py
+├── index.html
+├── requirements.txt
+└── models
+    └── whisper-classifier-final
+        ├── model.safetensors
+        ├── config.json
+        └── preprocessor_config.json
+```
 
+---
+
+## ⚡ Features
+
+* 🎤 Real-time Keyword Spotting
+* ⚡ FastAPI Backend
+* 🌐 Web Dashboard
+* 🚀 GPU Acceleration (PyTorch)
+
+---
+
+## 🧠 Tech Stack
+
+* Python
+* FastAPI
+* PyTorch
+* Transformers
+
+---
+
+## 👨‍💻 Author
+
+Developed by **Krit**
+
+---
