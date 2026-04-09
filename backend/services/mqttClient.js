@@ -22,7 +22,7 @@ function init(io) {
 
   client = mqtt.connect(brokerUrl, {
     clientId: MQTT_CLIENT_ID,
-    reconectPeriod: 1000,
+    reconnectPeriod: 1000,
     connectTimeout: 30000
   });
 

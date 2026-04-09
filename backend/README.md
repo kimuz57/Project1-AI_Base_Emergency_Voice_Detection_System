@@ -147,6 +147,18 @@ Uses nodemon for auto-restart on file changes.
 npm start
 ```
 
+### Start Local MQTT Broker
+If you do not already have Mosquitto installed, you can use the built-in broker script for testing:
+```bash
+npm run broker
+```
+
+### Publish a Test Audio Message
+A small test publisher is available to verify the backend receives MQTT audio payloads:
+```bash
+npm run publish-test -- testdevice
+```
+
 ### Check Health Status
 ```bash
 curl http://localhost:3001/health
