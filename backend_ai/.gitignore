@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Models and datasets (comment these out to commit specific versions)
+models/*.pkl
+models/*.h5
+models/*.pth
+datasets/emergency/*.wav
+datasets/normal/*.wav
+datasets/custom/*.wav
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+
+# Data files
+*.wav
+*.mp3
+audio_cache/
+
+# OS
+.DS_Store
+Thumbs.db
