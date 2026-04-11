@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Large dataset files (DO NOT COMMIT)
+# LOTUSDIS datasets
+LOTUSDIS_train.zip
+LOTUSDIS_dev.zip
+LOTUSDIS_test.zip
+LOTUSDIS_train/
+LOTUSDIS_dev/
+LOTUSDIS_test/
+LOTUSDIS_train.zipn3az4l1l.part
+LOTUSDIS_train
+
+# Training data and artifacts
+backend_ai/datasets/
+backend_ai/uploads/
+backend_ai/models/*.pkl
+backend_ai/__pycache__/
+
+# Annotation files (optional - large)
+LOTUSDIS_annotations.csv
+LOTUSDIS_textgrid.zip
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+
+# OS files
+.DS_Store
+Thumbs.db

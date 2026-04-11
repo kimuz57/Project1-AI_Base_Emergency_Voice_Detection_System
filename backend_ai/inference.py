@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import base64
 import pickle
+import io
 from datetime import datetime
 
 try:
@@ -51,7 +52,7 @@ class AIInference:
         try:
             # Load audio data
             if isinstance(audio_data, bytes):
-                y, sr = librosa.load(audio_data, sr=sr, mono=True)
+                y, sr = librosa.load(io.BytesIO(audio_data), sr=sr, mono=True)
             else:
                 y = np.frombuffer(audio_data, dtype=np.float32)
             
