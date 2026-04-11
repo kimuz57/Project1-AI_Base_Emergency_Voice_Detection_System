@@ -1,8 +1,8 @@
-# Guardian AI Emergency Voice Detection System
+# AI Emergency Voice Detection System
 
 **Project Deadline:** 29 May 2026 (50 days remaining)
 
-## 📋 Overview
+##  Overview
 
 Guardian AI is an **IoT-based emergency voice detection system** that monitors elderly patients or people in distress using:
 - **Hardware:** ESP32 + INMP441 microphone
@@ -13,7 +13,7 @@ Guardian AI is an **IoT-based emergency voice detection system** that monitors e
 
 ---
 
-## 👥 Team & Responsibilities
+##  Team & Responsibilities
 
 | Member | Component | Technology Stack |
 |--------|-----------|------------------|
@@ -23,7 +23,7 @@ Guardian AI is an **IoT-based emergency voice detection system** that monitors e
 
 ---
 
-## 🏗️ Project Structure
+##  Project Structure
 
 ```
 main_smartvoice/
@@ -49,7 +49,7 @@ main_smartvoice/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### AI Module Setup (Your Part)
 
@@ -87,7 +87,7 @@ flutter run
 
 ---
 
-## 🔄 Data Flow
+##  Data Flow
 
 ```
 ESP32 (Microphone)
@@ -111,7 +111,7 @@ Backend stores in PostgreSQL
 
 ---
 
-## 📊 API Contract (CRITICAL - DO NOT CHANGE)
+##  API Contract (CRITICAL - DO NOT CHANGE)
 
 ### AI Analysis Endpoint
 
@@ -145,7 +145,7 @@ Content-Type: application/json
 
 ---
 
-## 🎯 AI Module Milestones
+##  AI Module Milestones
 
 ### Week 1-2: Preparation
 - [ ] Install Python dependencies
@@ -173,7 +173,7 @@ Content-Type: application/json
 
 ---
 
-## 📚 Documentation Files
+##  Documentation Files
 
 - **`PROJECT_SPEC.md`** - Complete system specification (read this first!)
 - **`README_AI.md`** - Detailed AI module documentation
