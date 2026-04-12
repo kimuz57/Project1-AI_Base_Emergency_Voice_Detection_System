@@ -49,10 +49,11 @@ LOTUSDIS_train.zipn3az4l1l.part
 LOTUSDIS_train
 
 # Training data and artifacts
-backend_ai/datasets/
 backend_ai/uploads/
 backend_ai/models/*.pkl
 backend_ai/__pycache__/
+backend_ai/datasets/*.wav
+backend_ai/datasets/*.mp3
 
 # Annotation files (optional - large)
 LOTUSDIS_annotations.csv
