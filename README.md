@@ -17,7 +17,7 @@ Guardian AI is an **IoT-based emergency voice detection system** that monitors e
 
 | Member | Component | Technology Stack |
 |--------|-----------|------------------|
-| **Kittiwat** | Backend | Go, Fiber, PostgreSQL, MQTT, Gorm |
+| **Kit** | Backend | Go, Fiber, PostgreSQL, MQTT, Gorm |
 | **You** | AI/ML | Python, scikit-learn, librosa, Flask |
 | **Ball** | Mobile + Hardware | Flutter, ESP32 (C/IDF), MQTT |
 
