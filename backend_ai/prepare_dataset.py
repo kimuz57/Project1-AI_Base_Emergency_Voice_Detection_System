@@ -14,26 +14,64 @@ from tqdm import tqdm
 class DatasetPreparator:
     def __init__(self, root_dir='..'):
         self.root_dir = root_dir
-        self.annotations_file = os.path.join(root_dir, 'LOTUSDIS_annotations.csv')
+        self.annotations_dir = os.path.join(root_dir, 'LOTUSDIS_annotations_extracted', 'annotation')
         
-    def load_annotations(self):
-        """Load annotation CSV file"""
-        try:
-            # Try reading with errors='ignore' to skip problematic chars
-            df = pd.read_csv(
-                self.annotations_file, 
-                engine='python',
-                encoding_errors='ignore',
-                on_bad_lines='skip'
-            )
-            print(f"✓ Loaded annotations: {len(df)} rows")
-            print(f"  Columns: {list(df.columns)}")
-            return df
-        except Exception as e:
-            print(f"❌ Error loading annotations: {e}")
-            import traceback
-            traceback.print_exc()
+    def load_split_files(self):
+        """Load individual train/dev/test CSV files and combine them"""
+        splits = {}
+        total_rows = 0
+        
+        for split_name in ['train', 'dev', 'test']:
+            file_path = os.path.join(self.annotations_dir, f'{split_name}.csv')
+            if os.path.exists(file_path):
+                try:
+                    df = pd.read_csv(file_path, engine='python', encoding_errors='ignore')
+                    df['split'] = split_name  # Add split column
+                    splits[split_name] = df
+                    total_rows += len(df)
+                    print(f"✓ Loaded {split_name}.csv: {len(df)} rows")
+                except Exception as e:
+                    print(f"❌ Error loading {split_name}.csv: {e}")
+            else:
+                print(f"⚠️  {file_path} not found")
+        
+        return splits, total_rows
+    
+    def combine_datasets(self):
+        """Combine train/dev/test splits into single dataset"""
+        splits, _ = self.load_split_files()
+        
+        if not splits:
+            print("❌ No split files found")
             return None
+        
+        # Combine all splits
+        combined_df = pd.concat(splits.values(), ignore_index=True)
+        print(f"✓ Combined dataset: {len(combined_df)} total rows")
+        
+        # Save combined dataset
+        output_file = os.path.join(self.root_dir, 'backend_ai', 'datasets', 'combined_dataset.csv')
+        os.makedirs(os.path.dirname(output_file), exist_ok=True)
+        combined_df.to_csv(output_file, index=False)
+        print(f"✓ Saved combined dataset to: {output_file}")
+        
+        return combined_df
+    
+    def load_annotations(self):
+        """Load combined dataset or create it if not exists"""
+        combined_file = os.path.join(self.root_dir, 'backend_ai', 'datasets', 'combined_dataset.csv')
+        
+        if os.path.exists(combined_file):
+            try:
+                df = pd.read_csv(combined_file, engine='python', encoding_errors='ignore')
+                print(f"✓ Loaded combined dataset: {len(df)} rows")
+                return df
+            except Exception as e:
+                print(f"❌ Error loading combined dataset: {e}")
+        
+        # If combined file doesn't exist, create it
+        print("📝 Combined dataset not found, creating from split files...")
+        return self.combine_datasets()
     
     def explore_dataset(self):
         """Explore dataset structure and statistics"""
@@ -142,19 +180,29 @@ def main():
     
     preparator = DatasetPreparator(root_dir='.')
     
-    # 1. Explore dataset
+    # 1. Combine datasets from split files
+    print("\n📋 Step 1: Combining datasets...")
+    combined_df = preparator.combine_datasets()
+    if combined_df is None:
+        print("❌ Failed to combine datasets")
+        return
+    
+    # 2. Explore combined dataset
+    print("\n📊 Step 2: Exploring dataset...")
     preparator.explore_dataset()
     
-    # 2. Get split summary
+    # 3. Get split summary
     preparator.get_split_summary()
     
-    # 3. Check data quality
+    # 4. Check data quality
+    print("\n🔍 Step 3: Checking data quality...")
     preparator.check_data_quality()
     
-    # 4. Create split files
+    # 5. Create split files (if needed)
+    print("\n📁 Step 4: Creating split files...")
     preparator.create_train_dev_test_split()
     
-    print("\n✓ Dataset preparation complete!")
+    print("\n✅ Dataset preparation complete!")
 
 if __name__ == "__main__":
     main()
